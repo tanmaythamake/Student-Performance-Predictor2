@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Settings | EduPredict AI</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+        
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/charts.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+
+                <i class="fas fa-graduation-cap"></i>
+
+            </div>
+
+            <div>
+
+                <h2>EduPredict AI</h2>
+
+                <p>Student Analytics</p>
+
+            </div>
+
+        </div>
+
+        <nav>
+
+            <a href="{{ url_for('home') }}">
+                <i class="fas fa-home"></i>
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('predict') }}">
+                <i class="fas fa-chart-line"></i>
+                Predict
+            </a>
+
+            <a href="{{ url_for('history') }}">
+                <i class="fas fa-history"></i>
+                History
+            </a>
+
+            <a href="{{ url_for('about') }}">
+                <i class="fas fa-circle-info"></i>
+                About
+            </a>
+
+            <a href="{{ url_for('settings') }}" class="active">
+                <i class="fas fa-gear"></i>
+                Settings
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+        <header>
+
+            <h1>
+
+                <i class="fas fa-cog"></i>
+
+                Application Settings
+
+            </h1>
+
+            <p>
+
+                Customize your EduPredict AI experience.
+
+            </p>
+
+        </header>
+
+        <div class="settings-card">
+
+            <h2>
+
+                <i class="fas fa-user"></i>
+
+                Profile Settings
+
+            </h2>
+
+            <label>Full Name</label>
+
+            <input type="text" placeholder="Enter your full name">
+
+            <label>Email</label>
+
+            <input type="email" placeholder="Enter your email">
+
+            <label>College Name</label>
+
+            <input type="text" placeholder="Enter your college">
+
+            <br><br>
+
+            <h2>
+
+                <i class="fas fa-brain"></i>
+
+                AI Prediction Model
+
+            </h2>
+
+            <select>
+
+                <option>Random Forest</option>
+
+                <option>Decision Tree</option>
+
+                <option>Linear Regression</option>
+
+                <option>Support Vector Machine</option>
+
+            </select>
+
+            <br><br>
+
+            <h2>
+
+                <i class="fas fa-sliders-h"></i>
+
+                Prediction Accuracy
+
+            </h2>
+
+            <input type="range" min="50" max="100" value="96">
+                        <br><br>
+
+            <h2>
+
+                <i class="fas fa-bell"></i>
+
+                Notifications
+
+            </h2>
+
+            <div class="toggle">
+
+                <span>Email Notifications</span>
+
+                <input type="checkbox" checked>
+
+            </div>
+
+            <div class="toggle">
+
+                <span>Prediction Alerts</span>
+
+                <input type="checkbox" checked>
+
+            </div>
+
+            <div class="toggle">
+
+                <span>Dark Mode</span>
+
+                <input type="checkbox">
+
+            </div>
+
+            <br>
+
+            <button class="save-btn">
+
+                <i class="fas fa-save"></i>
+
+                Save Settings
+
+            </button>
+
+            <button class="reset-btn">
+
+                <i class="fas fa-rotate"></i>
+
+                Reset Settings
+
+            </button>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | EduPredict AI</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+
+            <div>
+                <h2>EduPredict AI</h2>
+                <p>Student Analytics</p>
+            </div>
+
+        </div>
+
+        <nav>
+
+            <a href="{{ url_for('home') }}">
+                <i class="fas fa-home"></i>
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('predict') }}">
+                <i class="fas fa-chart-line"></i>
+                Predict
+            </a>
+
+            <a href="{{ url_for('history') }}">
+                <i class="fas fa-history"></i>
+                History
+            </a>
+
+            <a href="{{ url_for('about') }}" class="active">
+                <i class="fas fa-circle-info"></i>
+                About
+            </a>
+
+            <a href="{{ url_for('settings') }}">
+                <i class="fas fa-gear"></i>
+                Settings
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <main class="main-content">
+
+        <header>
+
+            <h1>
+                <i class="fas fa-robot"></i>
+                About EduPredict AI
+            </h1>
+
+            <p>
+                AI Powered Student Performance Prediction System
+            </p>
+
+        </header>
+
+        <div class="about-card">
+
+            <h2>
+                <i class="fas fa-lightbulb"></i>
+                Project Overview
+            </h2>
+
+            <p>
+
+                EduPredict AI is a Machine Learning based Student Performance
+                Prediction System developed to help teachers and students
+                identify academic performance at an early stage.
+
+                The system predicts future academic performance using
+                Attendance, Study Hours, Internal Marks, Assignment Marks
+                and Previous Semester Marks.
+
+            </p>
+
+            <br>
+
+            <h2>
+                <i class="fas fa-bullseye"></i>
+                Project Objective
+            </h2>
+
+            <p>
+
+                The main objective of this project is to predict student
+                academic performance and identify students who require
+                additional academic support before final examinations.
+
+            </p>
+
+            <br>
+
+            <h2>
+                <i class="fas fa-star"></i>
+                Key Features
+            </h2>
+
+            <ul>
+
+                <li>📊 Student Performance Prediction</li>
+
+                <li>🤖 Machine Learning Based System</li>
+
+                <li>📈 Performance Dashboard</li>
+
+                <li>⚠ Risk Level Detection</li>
+
+                <li>🏆 Grade Prediction</li>
+
+                <li>📜 Prediction History</li>
+
+                <li>📉 Performance Analytics</li>
+
+            </ul>
+                        <br>
+
+            <h2>
+                <i class="fas fa-code"></i>
+                Technologies Used
+            </h2>
+
+            <div class="tech-grid">
+
+                <div class="tech-box">HTML5</div>
+
+                <div class="tech-box">CSS3</div>
+
+                <div class="tech-box">JavaScript</div>
+
+                <div class="tech-box">Python</div>
+
+                <div class="tech-box">Flask</div>
+
+                <div class="tech-box">Machine Learning</div>
+
+                <div class="tech-box">Pandas</div>
+
+                <div class="tech-box">Scikit-learn</div>
+
+                <div class="tech-box">NumPy</div>
+
+                <div class="tech-box">SQLite</div>
+
+            </div>
+
+            <br>
+
+            <h2>
+                <i class="fas fa-user"></i>
+                Developer Information
+            </h2>
+
+            <table class="about-table">
+
+                <tr>
+                    <td><strong>Project Name</strong></td>
+                    <td>EduPredict AI - Student Performance Prediction System</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Developer</strong></td>
+                    <td>Tanmay Thamake</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Course</strong></td>
+                    <td>Diploma in Computer Engineering</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Technology</strong></td>
+                    <td>Python, Flask, HTML, CSS, JavaScript</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Database</strong></td>
+                    <td>SQLite</td>
+                </tr>
+
+                <tr>
+                    <td><strong>AI Model</strong></td>
+                    <td>Machine Learning</td>
+                </tr>
+
+            </table>
+
+            <br>
+
+            <h2>
+                <i class="fas fa-graduation-cap"></i>
+                Project Vision
+            </h2>
+
+            <p>
+
+                EduPredict AI aims to provide an intelligent academic
+                prediction system that assists teachers in identifying
+                students who  may require additional support. It helps
+                institutions make data-driven decisions and improves
+                overall academic performance through early intervention.
+
+            </p>
+
+            <br>
+
+            <div class="version-card">
+
+                <h3>
+                    <i class="fas fa-shield-check"></i>
+                    Version 1.0
+                </h3>
+
+                <p>
+
+                    © 2026 EduPredict AI
+
+                    <br>
+
+                    Developed for Diploma Final Year Project
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>
