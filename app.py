@@ -1,14 +1,38 @@
 from flask import Flask, render_template, request
 import sqlite3
+import joblib
 
 app = Flask(__name__)
+
+# Load Machine Learning Model
+model = joblib.load("model.pkl")
+
 
 # ---------------- HOME ----------------
 
 @app.route("/")
 def home():
-    return render_template("index.html")
 
+    conn = sqlite3.connect("students.db")
+    conn.row_factory = sqlite3.Row
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT *
+        FROM students
+        ORDER BY id DESC
+        LIMIT 1
+    """)
+
+    student = cursor.fetchone()
+
+    conn.close()
+
+    return render_template(
+        "index.html",
+        student=student
+    )
 
 # ---------------- PREDICT ----------------
 
@@ -22,20 +46,39 @@ def predict():
         name = request.form["name"]
         attendance = float(request.form["attendance"])
         study = float(request.form["study"])
-        internal = float(request.form["internal"])
-        assignment = float(request.form["assignment"])
-        previous = float(request.form["previous"])
+        internal_total = float(request.form["internal_total"])
+        internal_obtained = float(request.form["internal_obtained"])
 
-        score = (
-            attendance * 0.20 +
-            study * 5 +
-            internal * 0.30 +
-            assignment * 0.20 +
-            previous * 0.30
-        )
+        assignment_total = float(request.form["assignment_total"])
+        assignment_obtained = float(request.form["assignment_obtained"])
+
+        internal = (internal_obtained / internal_total) * 100
+        assignment = (assignment_obtained / assignment_total) * 100
+        total_marks = float(request.form["total_marks"])
+        obtained_marks = float(request.form["obtained_marks"])
+        previous = (obtained_marks / total_marks) * 100
+
+        # ================= MACHINE LEARNING PREDICTION =================
+
+        data = [[
+            attendance,
+            study,
+            internal,
+            assignment,
+            previous
+        ]]
+
+        score = model.predict(data)[0]
 
         if score > 100:
             score = 100
+
+        if score < 0:
+            score = 0
+
+        score = round(score, 2)
+
+        # ================= GRADE =================
 
         if score >= 90:
             grade = "A+"
@@ -52,6 +95,8 @@ def predict():
         else:
             grade = "F"
 
+        # ================= RISK =================
+
         if score >= 75:
             risk = "Low"
         elif score >= 50:
@@ -59,43 +104,58 @@ def predict():
         else:
             risk = "High"
 
+        # ================= SAVE TO DATABASE =================
+
         conn = sqlite3.connect("students.db")
         cursor = conn.cursor()
 
         cursor.execute("""
         INSERT INTO students
-        (name, attendance, study_hours,
-        internal_marks,
-        assignment_marks,
-        previous_marks,
-        predicted_score,
-        grade,
-        risk)
+        (
+            name,
+            attendance,
+            study_hours,
+            internal_marks,
+            assignment_marks,
+            previous_marks,
+            predicted_score,
+            grade,
+            risk
+        )
 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+
         """, (
+
             name,
             attendance,
             study,
             internal,
             assignment,
             previous,
-            round(score,2),
+            score,
             grade,
             risk
+
         ))
 
         conn.commit()
         conn.close()
 
+        # ================= RESULT =================
+
         result = {
+
             "name": name,
-            "score": round(score,2),
+            "score": score,
             "grade": grade,
             "risk": risk
+
         }
 
     return render_template("predict.html", result=result)
+
+
 # ---------------- HISTORY ----------------
 
 @app.route("/history")
@@ -105,13 +165,20 @@ def history():
     conn.row_factory = sqlite3.Row
 
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM students ORDER BY id DESC")
+
+    cursor.execute("""
+    SELECT * FROM students
+    ORDER BY id DESC
+    """)
 
     students = cursor.fetchall()
 
     conn.close()
 
-    return render_template("history.html", students=students)
+    return render_template(
+        "history.html",
+        students=students
+    )
 
 
 # ---------------- ABOUT ----------------
