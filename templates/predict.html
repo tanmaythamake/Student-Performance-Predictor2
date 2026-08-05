@@ -106,15 +106,218 @@
                     <label>Study Hours / Day</label>
                     <input type="number" name="study" placeholder="Study Hours" required>
 
-                    <label>Internal Marks</label>
-                    <input type="number" name="internal" placeholder="Internal Marks" required>
+                    <!DOCTYPE html>
+<html lang="en">
 
-                    <label>Assignment Marks</label>
-                    <input type="number" name="assignment" placeholder="Assignment Marks" required>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict | EduPredict AI</title>
 
-                    <label>Previous Semester Marks</label>
-                    <input type="number" name="previous" placeholder="Previous Semester Marks" required>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+
+            <div>
+                <h2>EduPredict AI</h2>
+                <p>Student Analytics</p>
+            </div>
+
+        </div>
+
+        <nav>
+
+            <a href="{{ url_for('home') }}">
+                <i class="fas fa-home"></i>
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('predict') }}" class="active">
+                <i class="fas fa-chart-line"></i>
+                Predict
+            </a>
+
+            <a href="{{ url_for('history') }}">
+                <i class="fas fa-clock-rotate-left"></i>
+                History
+            </a>
+
+            <a href="{{ url_for('about') }}">
+                <i class="fas fa-circle-info"></i>
+                About
+            </a>
+
+            <a href="{{ url_for('settings') }}">
+                <i class="fas fa-gear"></i>
+                Settings
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+        <header>
+
+            <h1>Predict Student Performance</h1>
+
+            <p>
+                Enter student details to predict academic performance using AI.
+            </p>
+
+        </header>
+
+        <div class="predict-container">
+
+            <!-- Student Form -->
+
+            <div class="predict-card">
+
+                <h2>
+                    <i class="fas fa-user-graduate"></i>
+                    Student Details
+                </h2>
+
+                <form method="POST">
+
+                    <label>Student Name</label>
+                    <input type="text" name="name" placeholder="Enter Student Name" required>
+
+                    <label>Attendance (%)</label>
+                    <input type="number" name="attendance" placeholder="Enter Attendance" required>
+
+                    <label>Study Hours / Day</label>
+                    <input type="number" name="study" placeholder="Study Hours" required>
+
+                    <label>Internal Total Marks</label>
+<input type="number"
+       name="internal_total"
+       placeholder="Example: 30"
+       required>
+
+<label>Internal Obtained Marks</label>
+<input type="number"
+       name="internal_obtained"
+       placeholder="Example: 24"
+       required>
+
+<label>Assignment Total Marks</label>
+<input type="number"
+       name="assignment_total"
+       placeholder="Example: 20"
+       required>
+
+<label>Assignment Obtained Marks</label>
+<input type="number"
+       name="assignment_obtained"
+       placeholder="Example: 18"
+       required>
+
+                   <label>Previous Semester Total Marks</label>
+<input type="number"
+       name="total_marks"
+       placeholder="Example: 850"
+       required>
+
+<label>Previous Semester Obtained Marks</label>
+<input type="number"
+       name="obtained_marks"
+       placeholder="Example: 680"
+       required>
+                    <button type="submit">
+                        <i class="fas fa-chart-line"></i>
+                        Predict Performance
+                    </button>
+
+                </form>
+                                {% if result %}
+
+                <div class="predict-result">
+
+                    <h2>
+                        <i class="fas fa-chart-bar"></i>
+                        Prediction Result
+                    </h2>
+
+                    <div class="result-box">
+
+                        <div class="result-item">
+                            <span>👤 Student Name</span>
+                            <strong>{{ result.name }}</strong>
+                        </div>
+
+                        <div class="result-item">
+                            <span>📊 Predicted Score</span>
+                            <strong>{{ result.score }}%</strong>
+                        </div>
+
+                        <div class="result-item">
+                            <span>🏆 Grade</span>
+                            <strong>{{ result.grade }}</strong>
+                        </div>
+
+                        <div class="result-item">
+                            <span>⚠️ Risk Level</span>
+                            <strong>{{ result.risk }}</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>
+
+
+                   <label>Previous Semester Total Marks</label>
+<input type="number"
+       name="total_marks"
+       placeholder="Example: 850"
+       required>
+
+<label>Previous Semester Obtained Marks</label>
+<input type="number"
+       name="obtained_marks"
+       placeholder="Example: 680"
+       required>
                     <button type="submit">
                         <i class="fas fa-chart-line"></i>
                         Predict Performance

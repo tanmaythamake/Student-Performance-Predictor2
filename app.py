@@ -46,9 +46,17 @@ def predict():
         name = request.form["name"]
         attendance = float(request.form["attendance"])
         study = float(request.form["study"])
-        internal = float(request.form["internal"])
-        assignment = float(request.form["assignment"])
-        previous = float(request.form["previous"])
+        internal_total = float(request.form["internal_total"])
+        internal_obtained = float(request.form["internal_obtained"])
+
+        assignment_total = float(request.form["assignment_total"])
+        assignment_obtained = float(request.form["assignment_obtained"])
+
+        internal = (internal_obtained / internal_total) * 100
+        assignment = (assignment_obtained / assignment_total) * 100
+        total_marks = float(request.form["total_marks"])
+        obtained_marks = float(request.form["obtained_marks"])
+        previous = (obtained_marks / total_marks) * 100
 
         # ================= MACHINE LEARNING PREDICTION =================
 
