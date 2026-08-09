@@ -56,6 +56,72 @@ def predict():
         assignment = (assignment_obtained / assignment_total) * 100
         total_marks = float(request.form["total_marks"])
         obtained_marks = float(request.form["obtained_marks"])
+                # ================= INPUT VALIDATION =================
+
+        if not name:
+            return render_template(
+                "predict.html",
+                result=None,
+                error="Please enter the student's name."
+            )
+
+        if not 0 <= attendance <= 100:
+            return render_template(
+                "predict.html",
+                result=None,
+                error="Attendance must be between 0 and 100%."
+            )
+
+        if not 0 <= study <= 24:
+            return render_template(
+                "predict.html",
+                result=None,
+                error="Study hours must be between 0 and 24 hours per day."
+            )
+
+        if internal_total <= 0:
+            return render_template(
+                "predict.html",
+                result=None,
+                error="Internal total marks must be greater than 0."
+            )
+
+        if not 0 <= internal_obtained <= internal_total:
+            return render_template(
+                "predict.html",
+                result=None,
+                error="Internal obtained marks cannot exceed total marks."
+            )
+
+        if assignment_total <= 0:
+            return render_template(
+                "predict.html",
+                result=None,
+                error="Assignment total marks must be greater than 0."
+            )
+
+        if not 0 <= assignment_obtained <= assignment_total:
+            return render_template(
+                "predict.html",
+                result=None,
+                error="Assignment obtained marks cannot exceed total marks."
+            )
+
+        if total_marks <= 0:
+            return render_template(
+                "predict.html",
+                result=None,
+                error="Previous semester total marks must be greater than 0."
+            )
+
+        if not 0 <= obtained_marks <= total_marks:
+            return render_template(
+                "predict.html",
+                result=None,
+                error="Previous semester obtained marks cannot exceed total marks."
+            )
+        internal = (internal_obtained / internal_total) * 100
+        assignment = (assignment_obtained / assignment_total) * 100
         previous = (obtained_marks / total_marks) * 100
 
         # ================= MACHINE LEARNING PREDICTION =================

@@ -87,7 +87,12 @@
         <div class="predict-container">
 
             <!-- Student Form -->
-
+        {% if error %}
+<div class="error-message">
+    <i class="fas fa-circle-exclamation"></i>
+    <span>{{ error }}</span>
+</div>
+{% endif %}
             <div class="predict-card">
 
                 <h2>
