@@ -125,7 +125,7 @@ def predict():
         previous = (obtained_marks / total_marks) * 100
 
         # ================= MACHINE LEARNING PREDICTION =================
-
+     
         data = [[
             attendance,
             study,
