@@ -2,182 +2,1667 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predict | EduPredict AI</title>
+
+    <title>AI Prediction | EduPredict AI</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Main CSS -->
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
 
     <!-- Font Awesome -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+
+    <style>
+
+        /* =====================================================
+           PREDICT PAGE - NEXT LEVEL UI
+        ===================================================== */
+
+        .predict-page {
+            padding-bottom: 50px;
+        }
+
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .predict-hero {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 38px 40px;
+
+            margin-bottom: 28px;
+
+            border-radius: 26px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff 0%,
+                    #f5f8ff 60%,
+                    #eef3ff 100%
+                );
+
+            border: 1px solid #e5eaf3;
+
+            box-shadow:
+                0 18px 45px rgba(15, 23, 42, .07);
+        }
+
+
+        .predict-hero::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            right: -80px;
+            top: -120px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(37,99,235,.12),
+                    rgba(124,58,237,.08)
+                );
+        }
+
+
+        .predict-hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 120px;
+            height: 120px;
+
+            right: 130px;
+            bottom: -80px;
+
+            border-radius: 50%;
+
+            background: rgba(37,99,235,.06);
+        }
+
+
+        .hero-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 8px 15px;
+
+            border-radius: 30px;
+
+            background: #eaf1ff;
+
+            color: #2563eb;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: .7px;
+        }
+
+
+        .hero-badge i {
+
+            font-size: 12px;
+        }
+
+
+        .predict-hero h1 {
+
+            position: relative;
+
+            z-index: 2;
+
+            margin-top: 17px;
+
+            font-size: 36px;
+
+            line-height: 1.2;
+
+            color: #111827;
+        }
+
+
+        .predict-hero h1 span {
+
+            color: #2563eb;
+        }
+
+
+        .predict-hero p {
+
+            position: relative;
+
+            z-index: 2;
+
+            margin-top: 10px;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           MAIN LAYOUT
+        ===================================================== */
+
+        .predict-layout {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                320px;
+
+            gap: 25px;
+
+            align-items: start;
+        }
+
+
+        /* =====================================================
+           FORM CARD
+        ===================================================== */
+
+        .professional-form {
+
+            background: #ffffff;
+
+            border-radius: 24px;
+
+            border: 1px solid #e6ebf3;
+
+            padding: 30px;
+
+            box-shadow:
+                0 16px 40px rgba(15,23,42,.06);
+        }
+
+
+        .form-heading {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            padding-bottom: 23px;
+
+            margin-bottom: 25px;
+
+            border-bottom: 1px solid #edf1f6;
+        }
+
+
+        .form-heading-icon {
+
+            width: 52px;
+
+            height: 52px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 15px;
+
+            color: #ffffff;
+
+            font-size: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed
+                );
+
+            box-shadow:
+                0 10px 25px rgba(37,99,235,.22);
+        }
+
+
+        .form-heading h2 {
+
+            margin: 0;
+
+            font-size: 20px;
+
+            color: #172033;
+        }
+
+
+        .form-heading p {
+
+            margin-top: 4px;
+
+            font-size: 12px;
+
+            color: #94a3b8;
+        }
+
+
+        /* =====================================================
+           SECTION
+        ===================================================== */
+
+        .form-section {
+
+            margin-bottom: 25px;
+
+            padding: 22px;
+
+            border-radius: 18px;
+
+            background: #fbfcff;
+
+            border: 1px solid #edf1f7;
+        }
+
+
+        .section-heading {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 18px;
+
+            color: #172033;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+
+        .section-heading i {
+
+            color: #2563eb;
+        }
+
+
+        .section-number {
+
+            width: 25px;
+
+            height: 25px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #eaf1ff;
+
+            color: #2563eb;
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           INPUT GRID
+        ===================================================== */
+
+        .input-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0,1fr));
+
+            gap: 18px;
+        }
+
+
+        .input-group {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        .input-group.full {
+
+            grid-column: 1 / -1;
+        }
+
+
+        .input-group label {
+
+            margin-bottom: 8px;
+
+            color: #334155;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+
+        .input-box {
+
+            position: relative;
+        }
+
+
+        .input-box i {
+
+            position: absolute;
+
+            left: 15px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #94a3b8;
+
+            font-size: 13px;
+
+            pointer-events: none;
+        }
+
+
+        .input-box input {
+
+            width: 100%;
+
+            height: 50px;
+
+            padding:
+                0 15px 0 42px;
+
+            border:
+                1px solid #dbe2ec;
+
+            border-radius: 12px;
+
+            background: #ffffff;
+
+            color: #172033;
+
+            font-family: 'Poppins', sans-serif;
+
+            font-size: 13px;
+
+            outline: none;
+
+            transition: .25s;
+        }
+
+
+        .input-box input:hover {
+
+            border-color: #b9c5d6;
+        }
+
+
+        .input-box input:focus {
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(37,99,235,.09);
+        }
+
+
+        .input-help {
+
+            margin-top: 5px;
+
+            color: #94a3b8;
+
+            font-size: 10px;
+        }
+
+
+        /* =====================================================
+           MARKS HEADER
+        ===================================================== */
+
+        .marks-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 18px;
+        }
+
+
+        .marks-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            color: #172033;
+
+            font-size: 14px;
+
+            font-weight: 700;
+        }
+
+
+        .marks-title i {
+
+            color: #7c3aed;
+        }
+
+
+        .marks-tag {
+
+            padding: 5px 9px;
+
+            border-radius: 8px;
+
+            background: #f0ecff;
+
+            color: #7c3aed;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+        }
+
+
+        /* =====================================================
+           BUTTON
+        ===================================================== */
+
+        .predict-btn {
+
+            position: relative;
+
+            overflow: hidden;
+
+            width: 100%;
+
+            height: 56px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #4f46e5,
+                    #7c3aed
+                );
+
+            color: #ffffff;
+
+            font-family: 'Poppins', sans-serif;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 13px 28px
+                rgba(37,99,235,.25);
+
+            transition: .3s;
+        }
+
+
+        .predict-btn:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 17px 34px
+                rgba(37,99,235,.32);
+        }
+
+
+        .predict-btn i {
+
+            margin-right: 8px;
+        }
+
+
+        .secure-text {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 6px;
+
+            margin-top: 12px;
+
+            color: #94a3b8;
+
+            font-size: 10px;
+        }
+
+
+        .secure-text i {
+
+            color: #16a34a;
+        }
+
+
+        /* =====================================================
+           RIGHT PANEL
+        ===================================================== */
+
+        .side-panel {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 20px;
+        }
+
+
+        .side-card {
+
+            background: #ffffff;
+
+            border:
+                1px solid #e6ebf3;
+
+            border-radius: 20px;
+
+            padding: 23px;
+
+            box-shadow:
+                0 13px 32px
+                rgba(15,23,42,.06);
+        }
+
+
+        .side-card h3 {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            margin-bottom: 18px;
+
+            color: #172033;
+
+            font-size: 16px;
+        }
+
+
+        .side-card h3 i {
+
+            color: #2563eb;
+        }
+
+
+        /* =====================================================
+           PROCESS
+        ===================================================== */
+
+        .process {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 17px;
+        }
+
+
+        .process-item {
+
+            display: flex;
+
+            gap: 12px;
+
+            align-items: center;
+        }
+
+
+        .process-icon {
+
+            width: 36px;
+
+            height: 36px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: #eff5ff;
+
+            color: #2563eb;
+
+            font-size: 13px;
+        }
+
+
+        .process-item strong {
+
+            display: block;
+
+            color: #334155;
+
+            font-size: 11px;
+        }
+
+
+        .process-item span {
+
+            display: block;
+
+            margin-top: 2px;
+
+            color: #94a3b8;
+
+            font-size: 9px;
+        }
+
+
+        /* =====================================================
+           AI ENGINE
+        ===================================================== */
+
+        .ai-engine {
+
+            padding: 22px;
+
+            border-radius: 20px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #172554,
+                    #1d4ed8
+                );
+
+            box-shadow:
+                0 15px 30px
+                rgba(29,78,216,.20);
+        }
+
+
+        .ai-engine-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 18px;
+        }
+
+
+        .ai-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255,255,255,.14);
+
+            font-size: 17px;
+        }
+
+
+        .online {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 5px 9px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(34,197,94,.15);
+
+            color: #86efac;
+
+            font-size: 9px;
+
+            font-weight: 600;
+        }
+
+
+        .online-dot {
+
+            width: 6px;
+
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: #22c55e;
+
+            box-shadow:
+                0 0 8px #22c55e;
+        }
+
+
+        .ai-engine h3 {
+
+            margin-bottom: 6px;
+
+            color: white;
+
+            font-size: 16px;
+        }
+
+
+        .ai-engine p {
+
+            color: #bfdbfe;
+
+            font-size: 10px;
+
+            line-height: 1.6;
+        }
+
+
+        .ai-features {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2,1fr);
+
+            gap: 8px;
+
+            margin-top: 16px;
+        }
+
+
+        .ai-feature {
+
+            padding: 9px;
+
+            border-radius: 9px;
+
+            background:
+                rgba(255,255,255,.09);
+
+            color: #dbeafe;
+
+            font-size: 9px;
+        }
+
+
+        .ai-feature i {
+
+            margin-right: 5px;
+
+            color: #93c5fd;
+        }
+
+
+        /* =====================================================
+           RESULT
+        ===================================================== */
+
+        .prediction-result {
+
+            margin-top: 25px;
+
+            padding: 24px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5f8ff,
+                    #eef3ff
+                );
+
+            border:
+                1px solid #dbe7ff;
+        }
+
+
+        .result-heading {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            margin-bottom: 17px;
+
+            color: #172554;
+
+            font-size: 17px;
+
+            font-weight: 700;
+        }
+
+
+        .result-heading i {
+
+            color: #2563eb;
+        }
+
+
+        .result-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4,1fr);
+
+            gap: 12px;
+        }
+
+
+        .result-item {
+
+            padding: 16px;
+
+            background: white;
+
+            border:
+                1px solid #e5eaf3;
+
+            border-radius: 13px;
+        }
+
+
+        .result-item span {
+
+            display: block;
+
+            margin-bottom: 6px;
+
+            color: #64748b;
+
+            font-size: 10px;
+        }
+
+
+        .result-item strong {
+
+            color: #111827;
+
+            font-size: 17px;
+        }
+
+
+        .score strong {
+
+            color: #2563eb;
+        }
+
+
+        .grade strong {
+
+            color: #7c3aed;
+        }
+
+
+        .risk strong {
+
+            color: #16a34a;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media(max-width:1100px) {
+
+            .predict-layout {
+
+                grid-template-columns: 1fr;
+            }
+
+            .side-panel {
+
+                display: grid;
+
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+        }
+
+
+        @media(max-width:700px) {
+
+            .main-content {
+
+                padding: 20px;
+            }
+
+            .predict-hero {
+
+                padding: 28px 22px;
+            }
+
+            .predict-hero h1 {
+
+                font-size: 28px;
+            }
+
+            .professional-form {
+
+                padding: 20px;
+            }
+
+            .input-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .input-group.full {
+
+                grid-column: auto;
+            }
+
+            .side-panel {
+
+                grid-template-columns: 1fr;
+            }
+
+            .result-grid {
+
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+        }
+
+
+        @media(max-width:450px) {
+
+            .result-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
 
-    <!-- Sidebar -->
+
+    <!-- =====================================================
+         SIDEBAR
+    ===================================================== -->
 
     <aside class="sidebar">
 
         <div class="logo">
 
             <div class="logo-icon">
+
                 <i class="fas fa-graduation-cap"></i>
+
             </div>
 
             <div>
+
                 <h2>EduPredict AI</h2>
+
                 <p>Student Analytics</p>
+
             </div>
 
         </div>
 
+
         <nav>
 
             <a href="{{ url_for('home') }}">
+
                 <i class="fas fa-home"></i>
+
                 Dashboard
+
             </a>
 
-            <a href="{{ url_for('predict') }}" class="active">
+
+            <a href="{{ url_for('predict') }}"
+               class="active">
+
                 <i class="fas fa-chart-line"></i>
+
                 Predict
+
             </a>
+
 
             <a href="{{ url_for('history') }}">
+
                 <i class="fas fa-clock-rotate-left"></i>
+
                 History
+
             </a>
+
 
             <a href="{{ url_for('about') }}">
+
                 <i class="fas fa-circle-info"></i>
+
                 About
+
             </a>
 
+
             <a href="{{ url_for('settings') }}">
+
                 <i class="fas fa-gear"></i>
+
                 Settings
+
             </a>
 
         </nav>
 
     </aside>
 
-    <!-- Main Content -->
 
-    <main class="main-content">
 
-        <header>
+    <!-- =====================================================
+         MAIN
+    ===================================================== -->
 
-            <h1>Predict Student Performance</h1>
+    <main class="main-content predict-page">
+
+
+        <!-- HERO -->
+
+        <section class="predict-hero">
+
+            <div class="hero-badge">
+
+                <i class="fas fa-wand-magic-sparkles"></i>
+
+                AI STUDENT ANALYTICS
+
+            </div>
+
+
+            <h1>
+
+                Predict Student
+                <span>Performance</span>
+
+            </h1>
+
 
             <p>
-                Enter student details to predict academic performance using AI.
+
+                Analyze academic data and generate an
+                AI-powered performance prediction.
+
             </p>
 
-        </header>
-
-        <div class="predict-container">
-
-            <!-- Student Form -->
-
-            <div class="predict-card">
-
-                <h2>
-                    <i class="fas fa-user-graduate"></i>
-                    Student Details
-                </h2>
-
-                <form method="POST">
-
-                    <label>Student Name</label>
-                    <input type="text" name="name" placeholder="Enter Student Name" required>
-
-                    <label>Attendance (%)</label>
-                    <input type="number" name="attendance" placeholder="Enter Attendance" required>
-
-                    <label>Study Hours / Day</label>
-                    <input type="number" name="study" placeholder="Study Hours" required>
-<label>Internal Total Marks</label>
-<input type="number"
-       name="internal_total"
-       placeholder="Example: 30"
-       required>
-
-<label>Internal Obtained Marks</label>
-<input type="number"
-       name="internal_obtained"
-       placeholder="Example: 24"
-       required>
-
-<label>Assignment Total Marks</label>
-<input type="number"
-       name="assignment_total"
-       placeholder="Example: 20"
-       required>
-
-<label>Assignment Obtained Marks</label>
-<input type="number"
-       name="assignment_obtained"
-       placeholder="Example: 18"
-       required>
-                 
+        </section>
 
 
-                   <label>Previous Semester Total Marks</label>
-<input type="number"
-       name="total_marks"
-       placeholder="Example: 850"
-       required>
 
-<label>Previous Semester Obtained Marks</label>
-<input type="number"
-       name="obtained_marks"
-       placeholder="Example: 680"
-       required>
-                    <button type="submit">
-                        <i class="fas fa-chart-line"></i>
-                        Predict Performance
+        <!-- MAIN LAYOUT -->
+
+        <div class="predict-layout">
+
+
+            <!-- =================================================
+                 FORM
+            ================================================= -->
+
+            <div class="professional-form">
+
+
+                <div class="form-heading">
+
+                    <div class="form-heading-icon">
+
+                        <i class="fas fa-user-graduate"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>Student Assessment</h2>
+
+                        <p>
+                            Enter the student's academic information
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <form method="POST"
+                      id="predictionForm">
+
+
+                    <!-- STUDENT INFORMATION -->
+
+                    <div class="form-section">
+
+                        <div class="section-heading">
+
+                            <span class="section-number">
+                                01
+                            </span>
+
+                            <i class="fas fa-user"></i>
+
+                            Student Information
+
+                        </div>
+
+
+                        <div class="input-grid">
+
+
+                            <div class="input-group full">
+
+                                <label>
+                                    Student Name
+                                </label>
+
+                                <div class="input-box">
+
+                                    <i class="fas fa-user"></i>
+
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        placeholder="Enter student full name"
+                                        required>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Attendance
+                                </label>
+
+                                <div class="input-box">
+
+                                    <i class="fas fa-calendar-check"></i>
+
+                                    <input
+                                        type="number"
+                                        name="attendance"
+                                        placeholder="Example: 85"
+                                        min="0"
+                                        max="100"
+                                        step="0.01"
+                                        required>
+
+                                </div>
+
+                                <span class="input-help">
+                                    Enter percentage: 0–100%
+                                </span>
+
+                            </div>
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Study Hours / Day
+                                </label>
+
+                                <div class="input-box">
+
+                                    <i class="fas fa-book-open"></i>
+
+                                    <input
+                                        type="number"
+                                        name="study"
+                                        placeholder="Example: 4"
+                                        min="0"
+                                        max="24"
+                                        step="0.5"
+                                        required>
+
+                                </div>
+
+                                <span class="input-help">
+                                    Average daily study hours
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- INTERNAL -->
+
+                    <div class="form-section">
+
+                        <div class="marks-header">
+
+                            <div class="marks-title">
+
+                                <i class="fas fa-file-lines"></i>
+
+                                Internal Assessment
+
+                            </div>
+
+                            <span class="marks-tag">
+                                Academic
+                            </span>
+
+                        </div>
+
+
+                        <div class="input-grid">
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Internal Total Marks
+                                </label>
+
+                                <div class="input-box">
+
+                                    <i class="fas fa-list-ol"></i>
+
+                                    <input
+                                        type="number"
+                                        name="internal_total"
+                                        id="internal_total"
+                                        placeholder="Example: 30"
+                                        min="1"
+                                        required>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Internal Obtained Marks
+                                </label>
+
+                                <div class="input-box">
+
+                                    <i class="fas fa-circle-check"></i>
+
+                                    <input
+                                        type="number"
+                                        name="internal_obtained"
+                                        id="internal_obtained"
+                                        placeholder="Example: 24"
+                                        min="0"
+                                        required>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ASSIGNMENT -->
+
+                    <div class="form-section">
+
+                        <div class="marks-header">
+
+                            <div class="marks-title">
+
+                                <i class="fas fa-clipboard-check"></i>
+
+                                Assignment Assessment
+
+                            </div>
+
+                            <span class="marks-tag">
+                                Academic
+                            </span>
+
+                        </div>
+
+
+                        <div class="input-grid">
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Assignment Total Marks
+                                </label>
+
+                                <div class="input-box">
+
+                                    <i class="fas fa-list-ol"></i>
+
+                                    <input
+                                        type="number"
+                                        name="assignment_total"
+                                        id="assignment_total"
+                                        placeholder="Example: 20"
+                                        min="1"
+                                        required>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Assignment Obtained Marks
+                                </label>
+
+                                <div class="input-box">
+
+                                    <i class="fas fa-circle-check"></i>
+
+                                    <input
+                                        type="number"
+                                        name="assignment_obtained"
+                                        id="assignment_obtained"
+                                        placeholder="Example: 18"
+                                        min="0"
+                                        required>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PREVIOUS SEMESTER -->
+
+                    <div class="form-section">
+
+                        <div class="marks-header">
+
+                            <div class="marks-title">
+
+                                <i class="fas fa-graduation-cap"></i>
+
+                                Previous Semester
+
+                            </div>
+
+                            <span class="marks-tag">
+                                Academic History
+                            </span>
+
+                        </div>
+
+
+                        <div class="input-grid">
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Previous Semester Total Marks
+                                </label>
+
+                                <div class="input-box">
+
+                                    <i class="fas fa-file-lines"></i>
+
+                                    <input
+                                        type="number"
+                                        name="total_marks"
+                                        id="total_marks"
+                                        placeholder="Example: 850"
+                                        min="1"
+                                        required>
+
+                                </div>
+
+                                <span class="input-help">
+                                    Example: Diploma semester total = 850
+                                </span>
+
+                            </div>
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Previous Semester Obtained Marks
+                                </label>
+
+                                <div class="input-box">
+
+                                    <i class="fas fa-award"></i>
+
+                                    <input
+                                        type="number"
+                                        name="obtained_marks"
+                                        id="obtained_marks"
+                                        placeholder="Example: 680"
+                                        min="0"
+                                        required>
+
+                                </div>
+
+                                <span class="input-help">
+                                    Enter marks obtained by student
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="predict-btn">
+
+                        <i class="fas fa-wand-magic-sparkles"></i>
+
+                        Generate AI Prediction
+
                     </button>
 
+
+                    <div class="secure-text">
+
+                        <i class="fas fa-shield-halved"></i>
+
+                        Academic data is processed securely
+
+                    </div>
+
+
                 </form>
-                                {% if result %}
 
-                <div class="predict-result">
 
-                    <h2>
-                        <i class="fas fa-chart-bar"></i>
+
+                <!-- =================================================
+                     RESULT
+                ================================================= -->
+
+                {% if result %}
+
+                <div class="prediction-result">
+
+                    <div class="result-heading">
+
+                        <i class="fas fa-chart-column"></i>
+
                         Prediction Result
-                    </h2>
 
-                    <div class="result-box">
+                    </div>
 
-                        <div class="result-item">
-                            <span>👤 Student Name</span>
-                            <strong>{{ result.name }}</strong>
-                        </div>
+
+                    <div class="result-grid">
+
 
                         <div class="result-item">
-                            <span>📊 Predicted Score</span>
-                            <strong>{{ result.score }}%</strong>
+
+                            <span>
+                                Student
+                            </span>
+
+                            <strong>
+                                {{ result.name }}
+                            </strong>
+
                         </div>
 
-                        <div class="result-item">
-                            <span>🏆 Grade</span>
-                            <strong>{{ result.grade }}</strong>
+
+                        <div class="result-item score">
+
+                            <span>
+                                Predicted Score
+                            </span>
+
+                            <strong>
+                                {{ result.score }}%
+                            </strong>
+
                         </div>
 
-                        <div class="result-item">
-                            <span>⚠️ Risk Level</span>
-                            <strong>{{ result.risk }}</strong>
+
+                        <div class="result-item grade">
+
+                            <span>
+                                Expected Grade
+                            </span>
+
+                            <strong>
+                                {{ result.grade }}
+                            </strong>
+
                         </div>
+
+
+                        <div class="result-item risk">
+
+                            <span>
+                                Risk Level
+                            </span>
+
+                            <strong>
+                                {{ result.risk }}
+                            </strong>
+
+                        </div>
+
 
                     </div>
 
@@ -185,15 +1670,388 @@
 
                 {% endif %}
 
+
+            </div>
+
+
+
+            <!-- =================================================
+                 RIGHT SIDE
+            ================================================= -->
+
+            <div class="side-panel">
+
+
+                <!-- HOW IT WORKS -->
+
+                <div class="side-card">
+
+                    <h3>
+
+                        <i class="fas fa-route"></i>
+
+                        How Prediction Works
+
+                    </h3>
+
+
+                    <div class="process">
+
+
+                        <div class="process-item">
+
+                            <div class="process-icon">
+
+                                <i class="fas fa-user-pen"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Enter Academic Data
+                                </strong>
+
+                                <span>
+                                    Provide student information
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="process-item">
+
+                            <div class="process-icon">
+
+                                <i class="fas fa-calculator"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Calculate Percentages
+                                </strong>
+
+                                <span>
+                                    Marks are normalized automatically
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="process-item">
+
+                            <div class="process-icon">
+
+                                <i class="fas fa-brain"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    AI Analysis
+                                </strong>
+
+                                <span>
+                                    ML model analyzes performance
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="process-item">
+
+                            <div class="process-icon">
+
+                                <i class="fas fa-chart-line"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Performance Prediction
+                                </strong>
+
+                                <span>
+                                    Score, grade and risk generated
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- AI ENGINE -->
+
+                <div class="ai-engine">
+
+
+                    <div class="ai-engine-top">
+
+                        <div class="ai-icon">
+
+                            <i class="fas fa-robot"></i>
+
+                        </div>
+
+
+                        <div class="online">
+
+                            <span class="online-dot"></span>
+
+                            AI ONLINE
+
+                        </div>
+
+                    </div>
+
+
+                    <h3>
+                        AI Prediction Engine
+                    </h3>
+
+
+                    <p>
+
+                        Your academic inputs are analyzed
+                        using the trained machine learning
+                        model.
+
+                    </p>
+
+
+                    <div class="ai-features">
+
+
+                        <div class="ai-feature">
+
+                            <i class="fas fa-brain"></i>
+
+                            ML Model
+
+                        </div>
+
+
+                        <div class="ai-feature">
+
+                            <i class="fas fa-database"></i>
+
+                            SQLite
+
+                        </div>
+
+
+                        <div class="ai-feature">
+
+                            <i class="fas fa-chart-line"></i>
+
+                            Analytics
+
+                        </div>
+
+
+                        <div class="ai-feature">
+
+                            <i class="fas fa-shield"></i>
+
+                            Secure
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- INPUT GUIDE -->
+
+                <div class="side-card">
+
+                    <h3>
+
+                        <i class="fas fa-lightbulb"></i>
+
+                        Input Guide
+
+                    </h3>
+
+
+                    <div class="process">
+
+
+                        <div class="process-item">
+
+                            <div class="process-icon">
+
+                                <i class="fas fa-calendar-check"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Attendance
+                                </strong>
+
+                                <span>
+                                    Enter between 0 and 100%
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="process-item">
+
+                            <div class="process-icon">
+
+                                <i class="fas fa-book"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Study Hours
+                                </strong>
+
+                                <span>
+                                    Average hours per day
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="process-item">
+
+                            <div class="process-icon">
+
+                                <i class="fas fa-file"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Marks
+                                </strong>
+
+                                <span>
+                                    Obtained marks must be within total
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
             </div>
 
         </div>
+
 
     </main>
 
 </div>
 
+
+
+<!-- =========================================================
+     FRONTEND VALIDATION
+========================================================= -->
+
+<script>
+
+document.getElementById("predictionForm").addEventListener("submit", function(event) {
+
+    const internalTotal =
+        Number(document.getElementById("internal_total").value);
+
+    const internalObtained =
+        Number(document.getElementById("internal_obtained").value);
+
+
+    const assignmentTotal =
+        Number(document.getElementById("assignment_total").value);
+
+    const assignmentObtained =
+        Number(document.getElementById("assignment_obtained").value);
+
+
+    const totalMarks =
+        Number(document.getElementById("total_marks").value);
+
+    const obtainedMarks =
+        Number(document.getElementById("obtained_marks").value);
+
+
+    if (internalObtained > internalTotal) {
+
+        alert(
+            "Internal obtained marks cannot be greater than total marks."
+        );
+
+        event.preventDefault();
+
+        return;
+    }
+
+
+    if (assignmentObtained > assignmentTotal) {
+
+        alert(
+            "Assignment obtained marks cannot be greater than total marks."
+        );
+
+        event.preventDefault();
+
+        return;
+    }
+
+
+    if (obtainedMarks > totalMarks) {
+
+        alert(
+            "Previous semester obtained marks cannot be greater than total marks."
+        );
+
+        event.preventDefault();
+
+        return;
+    }
+
+});
+
+</script>
+
+
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
 
 </body>
 

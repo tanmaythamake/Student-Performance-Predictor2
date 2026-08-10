@@ -5,26 +5,32 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <title>History | EduPredict AI</title>
+    <title>Prediction History | EduPredict AI</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+          rel="stylesheet">
 
     <link rel="stylesheet"
-        href="{{ url_for('static', filename='css/style.css') }}">
+          href="{{ url_for('static', filename='css/style.css') }}">
 
     <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 </head>
 
+
 <body>
+
 
 <div class="container">
 
-    <!-- Sidebar -->
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
 
     <aside class="sidebar">
 
@@ -35,161 +41,1471 @@
             </div>
 
             <div>
+
                 <h2>EduPredict AI</h2>
+
                 <p>Student Analytics</p>
+
             </div>
 
         </div>
 
+
         <nav>
 
             <a href="{{ url_for('home') }}">
+
                 <i class="fas fa-home"></i>
+
                 Dashboard
+
             </a>
+
 
             <a href="{{ url_for('predict') }}">
+
                 <i class="fas fa-chart-line"></i>
+
                 Predict
+
             </a>
 
-            <a href="{{ url_for('history') }}" class="active">
+
+            <a href="{{ url_for('history') }}"
+               class="active">
+
                 <i class="fas fa-clock-rotate-left"></i>
+
                 History
+
             </a>
+
 
             <a href="{{ url_for('about') }}">
+
                 <i class="fas fa-circle-info"></i>
+
                 About
+
             </a>
 
+
             <a href="{{ url_for('settings') }}">
+
                 <i class="fas fa-gear"></i>
+
                 Settings
+
             </a>
 
         </nav>
 
     </aside>
 
-    <!-- Main Content -->
 
-    <main class="main-content">
 
-        <header>
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
 
-            <h1>
-                <i class="fas fa-history"></i>
-                Prediction History
-            </h1>
+    <main class="main-content history-page">
 
-            <p>
-                All predicted student records are stored in the database.
-            </p>
 
-        </header>
+        <!-- =================================================
+             HERO
+        ================================================== -->
 
-        <div class="history-card">
+        <section class="history-hero">
 
-            <div class="table-header">
+            <div class="history-hero-content">
 
-                <h2>
-                    <i class="fas fa-table"></i>
-                    Student Prediction Records
-                </h2>
+                <span class="hero-badge">
 
-                <button class="export-btn">
-                    <i class="fas fa-download"></i>
-                    Export CSV
-                </button>
+                    <i class="fas fa-database"></i>
+
+                    ACADEMIC DATABASE
+
+                </span>
+
+
+                <h1>
+
+                    Prediction
+                    <span>History</span>
+
+                </h1>
+
+
+                <p>
+
+                    Manage, search and analyze all student
+                    performance predictions.
+
+                </p>
 
             </div>
 
-            <table>
 
-                <thead>
+            <div class="hero-status">
 
-                    <tr>
+                <span class="status-dot"></span>
 
-                        <th>ID</th>
-                        <th>Student Name</th>
-                        <th>Attendance</th>
-                        <th>Study Hours</th>
-                        <th>Internal</th>
-                        <th>Assignment</th>
-                        <th>Previous</th>
-                        <th>Score</th>
-                        <th>Grade</th>
-                        <th>Risk</th>
+                <div>
+
+                    <strong>Database Active</strong>
+
+                    <small>SQLite Records</small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================== -->
+
+        <section class="history-stats">
+
+
+            <div class="history-stat blue-stat">
+
+                <div class="stat-icon">
+
+                    <i class="fas fa-chart-line"></i>
+
+                </div>
+
+                <div>
+
+                    <span>Total Predictions</span>
+
+                    <h2>{{ students|length }}</h2>
+
+                    <small>
+                        <i class="fas fa-database"></i>
+                        Database Records
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="history-stat green-stat">
+
+                <div class="stat-icon">
+
+                    <i class="fas fa-user-check"></i>
+
+                </div>
+
+                <div>
+
+                    <span>Low Risk</span>
+
+                    <h2 id="lowRiskCount">0</h2>
+
+                    <small>
+                        <i class="fas fa-shield"></i>
+                        Safe Students
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="history-stat orange-stat">
+
+                <div class="stat-icon">
+
+                    <i class="fas fa-triangle-exclamation"></i>
+
+                </div>
+
+                <div>
+
+                    <span>Medium Risk</span>
+
+                    <h2 id="mediumRiskCount">0</h2>
+
+                    <small>
+                        <i class="fas fa-eye"></i>
+                        Needs Attention
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="history-stat red-stat">
+
+                <div class="stat-icon">
+
+                    <i class="fas fa-circle-exclamation"></i>
+
+                </div>
+
+                <div>
+
+                    <span>High Risk</span>
+
+                    <h2 id="highRiskCount">0</h2>
+
+                    <small>
+                        <i class="fas fa-bell"></i>
+                        Immediate Attention
+                    </small>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             MAIN TABLE CARD
+        ================================================== -->
+
+        <section class="history-card">
+
+
+            <!-- TOOLBAR -->
+
+            <div class="history-toolbar">
+
+
+                <div class="history-title">
+
+                    <div class="history-title-icon">
+
+                        <i class="fas fa-users"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Student Prediction Records
+                        </h2>
+
+                        <p>
+                            Complete academic performance database
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="history-actions">
+
+
+                    <!-- SEARCH -->
+
+                    <div class="search-box">
+
+                        <i class="fas fa-search"></i>
+
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search student...">
+
+                    </div>
+
+
+                    <!-- RISK FILTER -->
+
+                    <select
+                        id="riskFilter"
+                        class="filter-select">
+
+                        <option value="all">
+                            All Risk
+                        </option>
+
+                        <option value="Low">
+                            Low Risk
+                        </option>
+
+                        <option value="Medium">
+                            Medium Risk
+                        </option>
+
+                        <option value="High">
+                            High Risk
+                        </option>
+
+                    </select>
+
+
+                    <!-- GRADE FILTER -->
+
+                    <select
+                        id="gradeFilter"
+                        class="filter-select">
+
+                        <option value="all">
+                            All Grades
+                        </option>
+
+                        <option value="A+">
+                            A+
+                        </option>
+
+                        <option value="A">
+                            A
+                        </option>
+
+                        <option value="B+">
+                            B+
+                        </option>
+
+                        <option value="B">
+                            B
+                        </option>
+
+                        <option value="C">
+                            C
+                        </option>
+
+                        <option value="D">
+                            D
+                        </option>
+
+                        <option value="F">
+                            F
+                        </option>
+
+                    </select>
+
+
+                    <!-- REFRESH -->
+
+                    <button
+                        class="icon-btn"
+                        onclick="location.reload()"
+                        title="Refresh">
+
+                        <i class="fas fa-rotate"></i>
+
+                    </button>
+
+
+                    <!-- EXPORT -->
+
+                    <button
+                        class="export-btn"
+                        onclick="exportCSV()">
+
+                        <i class="fas fa-file-csv"></i>
+
+                        Export
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TABLE -->
+
+            {% if students %}
+
+
+            <div class="table-wrapper">
+
+                <table id="historyTable">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>STUDENT</th>
+
+                            <th>ATTENDANCE</th>
+
+                            <th>STUDY</th>
+
+                            <th>INTERNAL</th>
+
+                            <th>ASSIGNMENT</th>
+
+                            <th>PREVIOUS</th>
+
+                            <th>SCORE</th>
+
+                            <th>GRADE</th>
+
+                            <th>RISK</th>
+
+                            <th>ACTION</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                    {% for student in students %}
+
+
+                    <tr
+                        data-name="{{ student['name']|lower }}"
+                        data-risk="{{ student['risk'] }}"
+                        data-grade="{{ student['grade'] }}">
+
+
+                        <!-- ID -->
+
+                        <td>
+
+                            <span class="record-id">
+
+                                #{{ student["id"] }}
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- STUDENT -->
+
+                        <td>
+
+                            <div class="student-cell">
+
+                                <div class="student-avatar">
+
+                                    {{ student["name"][0]|upper }}
+
+                                </div>
+
+
+                                <div>
+
+                                    <strong>
+
+                                        {{ student["name"] }}
+
+                                    </strong>
+
+                                    <small>
+
+                                        Student Record
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- ATTENDANCE -->
+
+                        <td>
+
+                            <div class="progress-value">
+
+                                <span>
+
+                                    {{ "%.2f"|format(
+                                    student["attendance"]|float
+                                    ) }}%
+
+                                </span>
+
+                            </div>
+
+                        </td>
+
+
+                        <!-- STUDY -->
+
+                        <td>
+
+                            <span class="normal-value">
+
+                                {{ "%.1f"|format(
+                                student["study_hours"]|float
+                                ) }}
+
+                                hrs
+
+                            </span>
+
+                        </td>
+
+
+                        <!-- INTERNAL -->
+
+                        <td>
+
+                            {{ "%.2f"|format(
+                            student["internal_marks"]|float
+                            ) }}%
+
+                        </td>
+
+
+                        <!-- ASSIGNMENT -->
+
+                        <td>
+
+                            {{ "%.2f"|format(
+                            student["assignment_marks"]|float
+                            ) }}%
+
+                        </td>
+
+
+                        <!-- PREVIOUS -->
+
+                        <td>
+
+                            {{ "%.2f"|format(
+                            student["previous_marks"]|float
+                            ) }}%
+
+                        </td>
+
+
+                        <!-- SCORE -->
+
+                        <td>
+
+                            <strong class="score">
+
+                                {{ "%.2f"|format(
+                                student["predicted_score"]|float
+                                ) }}%
+
+                            </strong>
+
+                        </td>
+
+
+                        <!-- GRADE -->
+
+                        <td>
+
+                            {% if student["grade"] in ["A+", "A"] %}
+
+                                <span class="badge grade-good">
+
+                                    <i class="fas fa-star"></i>
+
+                                    {{ student["grade"] }}
+
+                                </span>
+
+                            {% elif student["grade"] in ["B+", "B"] %}
+
+                                <span class="badge grade-average">
+
+                                    <i class="fas fa-award"></i>
+
+                                    {{ student["grade"] }}
+
+                                </span>
+
+                            {% elif student["grade"] in ["C", "D"] %}
+
+                                <span class="badge grade-warning">
+
+                                    <i class="fas fa-minus"></i>
+
+                                    {{ student["grade"] }}
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge grade-danger">
+
+                                    <i class="fas fa-xmark"></i>
+
+                                    {{ student["grade"] }}
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- RISK -->
+
+                        <td>
+
+                            {% if student["risk"] == "Low" %}
+
+                                <span class="badge risk-low">
+
+                                    <i class="fas fa-shield-halved"></i>
+
+                                    Low
+
+                                </span>
+
+                            {% elif student["risk"] == "Medium" %}
+
+                                <span class="badge risk-medium">
+
+                                    <i class="fas fa-triangle-exclamation"></i>
+
+                                    Medium
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge risk-high">
+
+                                    <i class="fas fa-circle-exclamation"></i>
+
+                                    High
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- ACTION -->
+
+                        <td>
+
+                            <div class="action-buttons">
+
+
+                                <!-- VIEW -->
+
+                                <button
+                                    type="button"
+                                    class="view-btn"
+                                    title="View Details"
+
+                                    onclick="viewStudent(
+
+                                        '{{ student['name']|e }}',
+
+                                        '{{ student['attendance'] }}',
+
+                                        '{{ student['study_hours'] }}',
+
+                                        '{{ student['internal_marks'] }}',
+
+                                        '{{ student['assignment_marks'] }}',
+
+                                        '{{ student['previous_marks'] }}',
+
+                                        '{{ student['predicted_score'] }}',
+
+                                        '{{ student['grade'] }}',
+
+                                        '{{ student['risk'] }}'
+
+                                    )">
+
+                                    <i class="fas fa-eye"></i>
+
+                                </button>
+
+
+                                <!-- DELETE -->
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('delete_student', student_id=student['id']) }}"
+                                    class="delete-form"
+
+                                    onsubmit="return confirmDelete('{{ student['name']|e }}')">
+
+
+                                    <button
+                                        type="submit"
+                                        class="delete-btn"
+                                        title="Delete Record">
+
+                                        <i class="fas fa-trash"></i>
+
+                                    </button>
+
+
+                                </form>
+
+
+                            </div>
+
+                        </td>
+
 
                     </tr>
 
-                </thead>
 
-                <tbody>
+                    {% endfor %}
 
-                {% for student in students %}
 
-                <tr>
+                    </tbody>
 
-                    <td>{{ student["id"] }}</td>
 
-                    <td>{{ student["name"] }}</td>
+                </table>
 
-                    <td>{{ student["attendance"] }}%</td>
+            </div>
 
-                    <td>{{ student["study_hours"] }}</td>
-                                        <td>{{ student["internal_marks"] }}</td>
 
-                    <td>{{ student["assignment_marks"] }}</td>
+            <!-- RESULT COUNT -->
 
-                    <td>{{ student["previous_marks"] }}</td>
+            <div class="table-footer">
 
-                    <td>{{ student["predicted_score"] }}%</td>
+                <span id="resultCount">
 
-                    <td>
+                    Showing {{ students|length }}
+                    records
 
-                        {% if student["grade"] == "A+" %}
-                            <span class="low">{{ student["grade"] }}</span>
-                        {% elif student["grade"] == "A" %}
-                            <span class="low">{{ student["grade"] }}</span>
-                        {% elif student["grade"] == "B+" %}
-                            <span class="medium">{{ student["grade"] }}</span>
-                        {% elif student["grade"] == "B" %}
-                            <span class="medium">{{ student["grade"] }}</span>
-                        {% else %}
-                            <span class="high">{{ student["grade"] }}</span>
-                        {% endif %}
+                </span>
 
-                    </td>
 
-                    <td>
+                <span>
 
-                        {% if student["risk"] == "Low" %}
-                            <span class="low">Low</span>
-                        {% elif student["risk"] == "Medium" %}
-                            <span class="medium">Medium</span>
-                        {% else %}
-                            <span class="high">High</span>
-                        {% endif %}
+                    <i class="fas fa-lock"></i>
 
-                    </td>
+                    SQLite Database
 
-                </tr>
+                </span>
 
-                {% endfor %}
+            </div>
 
-                </tbody>
 
-            </table>
+            {% else %}
 
-        </div>
+
+            <!-- EMPTY -->
+
+            <div class="empty-history">
+
+                <div class="empty-icon">
+
+                    <i class="fas fa-folder-open"></i>
+
+                </div>
+
+                <h2>
+                    No Prediction Records
+                </h2>
+
+                <p>
+                    Start by creating your first student prediction.
+                </p>
+
+
+                <a
+                    href="{{ url_for('predict') }}"
+                    class="create-btn">
+
+                    <i class="fas fa-plus"></i>
+
+                    Create Prediction
+
+                </a>
+
+            </div>
+
+
+            {% endif %}
+
+
+        </section>
+
 
     </main>
 
 </div>
 
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+
+<!-- =====================================================
+     STUDENT DETAILS MODAL
+====================================================== -->
+
+<div
+    class="modal-overlay"
+    id="studentModal">
+
+
+    <div class="student-modal">
+
+
+        <button
+            class="modal-close"
+            onclick="closeModal()">
+
+            <i class="fas fa-xmark"></i>
+
+        </button>
+
+
+        <div class="modal-header">
+
+            <div class="modal-avatar"
+                 id="modalAvatar">
+
+                ?
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    STUDENT PERFORMANCE
+                </span>
+
+                <h2 id="modalName">
+                    Student
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-grid">
+
+
+            <div class="modal-item">
+
+                <span>
+                    Attendance
+                </span>
+
+                <strong id="modalAttendance">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="modal-item">
+
+                <span>
+                    Study Hours
+                </span>
+
+                <strong id="modalStudy">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="modal-item">
+
+                <span>
+                    Internal
+                </span>
+
+                <strong id="modalInternal">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="modal-item">
+
+                <span>
+                    Assignment
+                </span>
+
+                <strong id="modalAssignment">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="modal-item">
+
+                <span>
+                    Previous Semester
+                </span>
+
+                <strong id="modalPrevious">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="modal-item highlight">
+
+                <span>
+                    Predicted Score
+                </span>
+
+                <strong id="modalScore">
+                    -
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="modal-result">
+
+
+            <div>
+
+                <span>
+                    Expected Grade
+                </span>
+
+                <strong id="modalGrade">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Risk Level
+                </span>
+
+                <strong id="modalRisk">
+                    -
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
+   SEARCH + FILTER
+===================================================== */
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const riskFilter =
+    document.getElementById("riskFilter");
+
+const gradeFilter =
+    document.getElementById("gradeFilter");
+
+
+function filterTable() {
+
+    const search =
+        searchInput.value.toLowerCase();
+
+    const risk =
+        riskFilter.value;
+
+    const grade =
+        gradeFilter.value;
+
+
+    const rows =
+        document.querySelectorAll(
+            "#historyTable tbody tr"
+        );
+
+
+    let visible = 0;
+
+
+    rows.forEach(function(row) {
+
+
+        const name =
+            row.dataset.name;
+
+        const rowRisk =
+            row.dataset.risk;
+
+        const rowGrade =
+            row.dataset.grade;
+
+
+        const matchSearch =
+            name.includes(search);
+
+
+        const matchRisk =
+            risk === "all" ||
+            rowRisk === risk;
+
+
+        const matchGrade =
+            grade === "all" ||
+            rowGrade === grade;
+
+
+        if (
+            matchSearch &&
+            matchRisk &&
+            matchGrade
+        ) {
+
+            row.style.display = "";
+
+            visible++;
+
+        } else {
+
+            row.style.display = "none";
+
+        }
+
+    });
+
+
+    const result =
+        document.getElementById(
+            "resultCount"
+        );
+
+
+    if (result) {
+
+        result.innerHTML =
+            `Showing <strong>${visible}</strong> records`;
+
+    }
+
+}
+
+
+if (searchInput) {
+
+    searchInput.addEventListener(
+        "input",
+        filterTable
+    );
+
+}
+
+
+if (riskFilter) {
+
+    riskFilter.addEventListener(
+        "change",
+        filterTable
+    );
+
+}
+
+
+if (gradeFilter) {
+
+    gradeFilter.addEventListener(
+        "change",
+        filterTable
+    );
+
+}
+
+
+
+/* =====================================================
+   RISK STATISTICS
+===================================================== */
+
+let low = 0;
+
+let medium = 0;
+
+let high = 0;
+
+
+document
+    .querySelectorAll(
+        "#historyTable tbody tr"
+    )
+    .forEach(function(row) {
+
+
+        const risk =
+            row.dataset.risk;
+
+
+        if (risk === "Low") {
+
+            low++;
+
+        }
+
+        else if (risk === "Medium") {
+
+            medium++;
+
+        }
+
+        else if (risk === "High") {
+
+            high++;
+
+        }
+
+    });
+
+
+const lowElement =
+    document.getElementById(
+        "lowRiskCount"
+    );
+
+
+const mediumElement =
+    document.getElementById(
+        "mediumRiskCount"
+    );
+
+
+const highElement =
+    document.getElementById(
+        "highRiskCount"
+    );
+
+
+if (lowElement)
+    lowElement.innerText = low;
+
+
+if (mediumElement)
+    mediumElement.innerText = medium;
+
+
+if (highElement)
+    highElement.innerText = high;
+
+
+
+/* =====================================================
+   DELETE CONFIRMATION
+===================================================== */
+
+function confirmDelete(name) {
+
+    return confirm(
+        "Delete prediction record for " +
+        name +
+        "?\n\nThis action cannot be undone."
+    );
+
+}
+
+
+
+/* =====================================================
+   VIEW STUDENT
+===================================================== */
+
+function viewStudent(
+    name,
+    attendance,
+    study,
+    internal,
+    assignment,
+    previous,
+    score,
+    grade,
+    risk
+) {
+
+
+    document.getElementById(
+        "modalName"
+    ).innerText = name;
+
+
+    document.getElementById(
+        "modalAvatar"
+    ).innerText =
+        name.charAt(0).toUpperCase();
+
+
+    document.getElementById(
+        "modalAttendance"
+    ).innerText =
+        parseFloat(attendance).toFixed(2)
+        + "%";
+
+
+    document.getElementById(
+        "modalStudy"
+    ).innerText =
+        parseFloat(study).toFixed(1)
+        + " hrs/day";
+
+
+    document.getElementById(
+        "modalInternal"
+    ).innerText =
+        parseFloat(internal).toFixed(2)
+        + "%";
+
+
+    document.getElementById(
+        "modalAssignment"
+    ).innerText =
+        parseFloat(assignment).toFixed(2)
+        + "%";
+
+
+    document.getElementById(
+        "modalPrevious"
+    ).innerText =
+        parseFloat(previous).toFixed(2)
+        + "%";
+
+
+    document.getElementById(
+        "modalScore"
+    ).innerText =
+        parseFloat(score).toFixed(2)
+        + "%";
+
+
+    document.getElementById(
+        "modalGrade"
+    ).innerText =
+        grade;
+
+
+    document.getElementById(
+        "modalRisk"
+    ).innerText =
+        risk;
+
+
+    document
+        .getElementById(
+            "studentModal"
+        )
+        .classList.add("show");
+
+}
+
+
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+function closeModal() {
+
+    document
+        .getElementById(
+            "studentModal"
+        )
+        .classList.remove("show");
+
+}
+
+
+document
+    .getElementById("studentModal")
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === this
+            ) {
+
+                closeModal();
+
+            }
+
+        }
+    );
+
+
+
+/* =====================================================
+   ESC KEY
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeModal();
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   EXPORT CSV
+===================================================== */
+
+function exportCSV() {
+
+    const table =
+        document.getElementById(
+            "historyTable"
+        );
+
+
+    if (!table) {
+
+        alert(
+            "No records available."
+        );
+
+        return;
+
+    }
+
+
+    let csv = [];
+
+
+    const rows =
+        table.querySelectorAll(
+            "tr"
+        );
+
+
+    rows.forEach(function(row) {
+
+
+        if (
+            row.style.display === "none"
+        ) {
+
+            return;
+
+        }
+
+
+        const cols =
+            row.querySelectorAll(
+                "th, td"
+            );
+
+
+        let data = [];
+
+
+        cols.forEach(function(col) {
+
+            let text =
+                col.innerText
+                .replace(/\n/g, " ")
+                .replace(/,/g, " ")
+                .trim();
+
+
+            data.push(
+                `"${text}"`
+            );
+
+        });
+
+
+        csv.push(
+            data.join(",")
+        );
+
+    });
+
+
+    const blob =
+        new Blob(
+            [csv.join("\n")],
+            {
+                type:
+                    "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const link =
+        document.createElement("a");
+
+
+    link.href = url;
+
+
+    link.download =
+        "EduPredict_History.csv";
+
+
+    document
+        .body
+        .appendChild(link);
+
+
+    link.click();
+
+
+    document
+        .body
+        .removeChild(link);
+
+
+    URL.revokeObjectURL(url);
+
+}
+
+</script>
+
 
 </body>
 

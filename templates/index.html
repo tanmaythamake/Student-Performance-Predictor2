@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>EduPredict AI</title>
+    <title>Dashboard | EduPredict AI</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -18,17 +18,26 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/charts.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
 
+    <!-- Professional Dashboard CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+
     <!-- Font Awesome -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
+
 
 <body>
 
 <div class="container">
 
-    <!-- ================= SIDEBAR ================= -->
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
 
     <aside class="sidebar">
 
@@ -44,6 +53,7 @@
             </div>
 
         </div>
+
 
         <nav>
 
@@ -77,222 +87,218 @@
     </aside>
 
 
-    <!-- ================= MAIN CONTENT ================= -->
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
 
-    <main class="main-content">
+    <main class="main-content dashboard-main">
 
-        <header>
 
-            <h1>
-                Student Performance Predictor
-            </h1>
+        <!-- =================================================
+             HEADER
+             ================================================= -->
 
-            <p>
-                AI Powered Dashboard for Academic Performance Prediction
-            </p>
+        <header class="dashboard-header">
+
+            <div>
+
+                <div class="welcome-badge">
+
+                    <i class="fas fa-sparkles"></i>
+
+                    AI STUDENT ANALYTICS
+
+                </div>
+
+
+                <h1>
+
+                    Student Performance
+                    <span>Dashboard</span>
+
+                </h1>
+
+
+                <p>
+
+                    Monitor academic performance and analyze
+                    student predictions using Machine Learning.
+
+                </p>
+
+            </div>
+
+
+            <!-- SYSTEM STATUS -->
+
+            <div class="header-status">
+
+                <div class="status-dot"></div>
+
+                <div>
+
+                    <strong>System Active</strong>
+
+                    <small>
+                        ML Prediction Engine
+                    </small>
+
+                </div>
+
+            </div>
 
         </header>
 
 
-        <!-- ================= DASHBOARD CARDS ================= -->
 
-        <section class="dashboard-cards">
+        <!-- =================================================
+             KPI CARDS
+             ================================================= -->
+
+        <section class="kpi-grid">
 
 
-            <!-- Predicted Score -->
+            <!-- TOTAL PREDICTIONS -->
 
-            <div class="card blue">
+            <div class="kpi-card blue-card">
 
-                <div class="card-top">
+                <div class="kpi-icon">
+
                     <i class="fas fa-chart-line"></i>
+
                 </div>
 
-                <h2>
+                <div class="kpi-content">
 
-                    {% if student %}
+                    <span>
+                        Total Predictions
+                    </span>
 
-                    {{ student.predicted_score }}%
+                    <h2>
+                        {{ total_predictions }}
+                    </h2>
 
-                    {% else %}
+                    <small>
 
-                    0%
+                        <i class="fas fa-database"></i>
 
-                    {% endif %}
+                        Database Records
 
-                </h2>
+                    </small>
 
-                <p>
-                    Predicted Score
-                </p>
-
-                <span>
-                    Latest Prediction
-                </span>
+                </div>
 
             </div>
 
 
-            <!-- Grade -->
 
-            <div class="card green">
+            <!-- AVERAGE SCORE -->
 
-                <div class="card-top">
-                    <i class="fas fa-award"></i>
+            <div class="kpi-card purple-card">
+
+                <div class="kpi-icon">
+
+                    <i class="fas fa-bullseye"></i>
+
                 </div>
 
-                <h2>
+                <div class="kpi-content">
 
-                    {% if student %}
+                    <span>
+                        Average Score
+                    </span>
 
-                    {{ student.grade }}
+                    <h2>
+                        {{ average_score }}%
+                    </h2>
 
-                    {% else %}
+                    <small>
 
-                    -
+                        <i class="fas fa-arrow-trend-up"></i>
 
-                    {% endif %}
+                        Overall Performance
 
-                </h2>
+                    </small>
 
-                <p>
-                    Expected Grade
-                </p>
-
-                <span>
-                    Machine Learning Result
-                </span>
+                </div>
 
             </div>
 
 
-            <!-- Risk -->
 
-            <div class="card orange">
+            <!-- ATTENDANCE -->
 
-                <div class="card-top">
-                    <i class="fas fa-triangle-exclamation"></i>
-                </div>
+            <div class="kpi-card cyan-card">
 
-                <h2>
+                <div class="kpi-icon">
 
-                    {% if student %}
-
-                    {{ student.risk }}
-
-                    {% else %}
-
-                    -
-
-                    {% endif %}
-
-                </h2>
-
-                <p>
-                    Risk Level
-                </p>
-
-                <span>
-                    Latest Analysis
-                </span>
-
-            </div>
-
-
-            <!-- Attendance -->
-
-            <div class="card purple">
-
-                <div class="card-top">
                     <i class="fas fa-user-check"></i>
+
                 </div>
 
-                <h2>
+                <div class="kpi-content">
 
-                    {% if student %}
+                    <span>
+                        Average Attendance
+                    </span>
 
-                    {{ student.attendance }}%
+                    <h2>
+                        {{ average_attendance }}%
+                    </h2>
 
-                    {% else %}
+                    <small>
 
-                    0%
+                        <i class="fas fa-calendar-check"></i>
 
-                    {% endif %}
+                        Student Attendance
 
-                </h2>
+                    </small>
 
-                <p>
-                    Attendance
-                </p>
-
-                <span>
-                    Student Attendance
-                </span>
+                </div>
 
             </div>
 
 
-            <!-- Study Hours -->
 
-            <div class="card cyan">
+            <!-- LATEST STUDENT -->
 
-                <div class="card-top">
-                    <i class="fas fa-book"></i>
+            <div class="kpi-card pink-card">
+
+                <div class="kpi-icon">
+
+                    <i class="fas fa-user-graduate"></i>
+
                 </div>
 
-                <h2>
+                <div class="kpi-content">
 
-                    {% if student %}
+                    <span>
+                        Latest Student
+                    </span>
 
-                    {{ student.study_hours }}
+                    <h2 class="student-name">
 
-                    {% else %}
+                        {% if student %}
 
-                    0
+                            {{ student.name }}
 
-                    {% endif %}
+                        {% else %}
 
-                </h2>
+                            No Data
 
-                <p>
-                    Study Hours / Day
-                </p>
+                        {% endif %}
 
-                <span>
-                    Latest Input
-                </span>
+                    </h2>
 
-            </div>
+                    <small>
 
+                        <i class="fas fa-clock"></i>
 
-            <!-- Student Name -->
+                        Latest Prediction
 
-            <div class="card pink">
+                    </small>
 
-                <div class="card-top">
-                    <i class="fas fa-user"></i>
                 </div>
-
-                <h2 style="font-size:28px;">
-
-                    {% if student %}
-
-                    {{ student.name }}
-
-                    {% else %}
-
-                    No Data
-
-                    {% endif %}
-
-                </h2>
-
-                <p>
-                    Latest Student
-                </p>
-
-                <span>
-                    Database Record
-                </span>
 
             </div>
 
@@ -300,28 +306,280 @@
         </section>
 
 
-        <!-- ================= LOWER DASHBOARD ================= -->
 
-        <section class="content-grid">
+        <!-- =================================================
+             LATEST ML RESULT
+             ================================================= -->
+
+        <section class="result-banner">
 
 
-            <!-- ================= STUDENT INFORMATION ================= -->
+            <div class="result-left">
 
-            <div class="student-panel">
+                <div class="result-avatar">
 
-                <div class="section-title">
+                    <i class="fas fa-robot"></i>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Latest Machine Learning Prediction
+                    </span>
 
                     <h2>
 
-                        <i class="fas fa-user-graduate"></i>
+                        {% if student %}
 
-                        Student Information
+                            {{ student.name }}
+
+                        {% else %}
+
+                            No prediction available
+
+                        {% endif %}
 
                     </h2>
 
-                    <p>
-                        Latest student prediction details.
-                    </p>
+                </div>
+
+            </div>
+
+
+            {% if student %}
+
+
+            <!-- SCORE -->
+
+            <div class="result-stat">
+
+                <span>
+                    Predicted Score
+                </span>
+
+                <strong>
+                    {{ student.predicted_score }}%
+                </strong>
+
+            </div>
+
+
+            <!-- GRADE -->
+
+            <div class="result-stat">
+
+                <span>
+                    Grade
+                </span>
+
+                <strong>
+                    {{ student.grade }}
+                </strong>
+
+            </div>
+
+
+            <!-- RISK -->
+
+            <div class="risk-badge
+
+                {% if student.risk == 'Low' %}
+                    risk-low
+                {% elif student.risk == 'Medium' %}
+                    risk-medium
+                {% else %}
+                    risk-high
+                {% endif %}
+
+            ">
+
+                <i class="fas fa-shield-halved"></i>
+
+                {{ student.risk }} Risk
+
+            </div>
+
+
+            {% endif %}
+
+        </section>
+
+
+
+        <!-- =================================================
+             CHARTS
+             ================================================= -->
+
+        <section class="chart-grid">
+
+
+            <!-- PREDICTION TREND -->
+
+            <div class="chart-card large-chart">
+
+                <div class="chart-header">
+
+                    <div>
+
+                        <h2>
+
+                            <i class="fas fa-chart-line"></i>
+
+                            Prediction Trend
+
+                        </h2>
+
+                        <p>
+                            Recent student performance predictions
+                        </p>
+
+                    </div>
+
+
+                    <span class="chart-label">
+                        ML ANALYTICS
+                    </span>
+
+                </div>
+
+
+                <div class="chart-wrapper">
+
+                    <canvas id="predictionChart"></canvas>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RISK ANALYSIS -->
+
+            <div class="chart-card">
+
+                <div class="chart-header">
+
+                    <div>
+
+                        <h2>
+
+                            <i class="fas fa-chart-pie"></i>
+
+                            Risk Analysis
+
+                        </h2>
+
+                        <p>
+                            Student risk distribution
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="pie-wrapper">
+
+                    <canvas id="riskChart"></canvas>
+
+                </div>
+
+
+                <div class="risk-summary">
+
+
+                    <div>
+
+                        <span class="risk-dot low-dot"></span>
+
+                        Low
+
+                        <strong>
+                            {{ risk_data["Low"] }}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="risk-dot medium-dot"></span>
+
+                        Medium
+
+                        <strong>
+                            {{ risk_data["Medium"] }}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="risk-dot high-dot"></span>
+
+                        High
+
+                        <strong>
+                            {{ risk_data["High"] }}
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PROFESSIONAL STUDENT ANALYSIS
+             ================================================= -->
+
+        <section class="bottom-grid">
+
+
+            <!-- =================================================
+                 LATEST STUDENT INFORMATION
+                 ================================================= -->
+
+            <div class="info-card">
+
+                <div class="info-header">
+
+                    <div>
+
+                        <h2>
+
+                            <i class="fas fa-user-graduate"></i>
+
+                            Latest Student Information
+
+                        </h2>
+
+                        <p>
+                            Latest academic record from database
+                        </p>
+
+                    </div>
+
+
+                    {% if student %}
+
+                    <span class="data-status">
+
+                        <i class="fas fa-circle"></i>
+
+                        Live Data
+
+                    </span>
+
+                    {% endif %}
 
                 </div>
 
@@ -329,12 +587,53 @@
                 {% if student %}
 
 
-                <div class="student-info">
+                <!-- STUDENT PROFILE -->
+
+                <div class="student-profile">
+
+                    <div class="profile-avatar">
+
+                        <i class="fas fa-user-graduate"></i>
+
+                    </div>
 
 
-                    <!-- Student Name -->
+                    <div class="profile-info">
 
-                    <div class="info-row">
+                        <h3>
+                            {{ student.name }}
+                        </h3>
+
+                        <span>
+                            Latest Prediction Record
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-grade">
+
+                        <strong>
+                            {{ student.grade }}
+                        </strong>
+
+                        <span>
+                            Grade
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STUDENT DETAILS -->
+
+                <div class="student-details">
+
+
+                    <!-- NAME -->
+
+                    <div class="detail-row">
 
                         <span>
 
@@ -351,9 +650,9 @@
                     </div>
 
 
-                    <!-- Attendance -->
+                    <!-- ATTENDANCE -->
 
-                    <div class="info-row">
+                    <div class="detail-row">
 
                         <span>
 
@@ -370,9 +669,9 @@
                     </div>
 
 
-                    <!-- Study Hours -->
+                    <!-- STUDY HOURS -->
 
-                    <div class="info-row">
+                    <div class="detail-row">
 
                         <span>
 
@@ -383,15 +682,15 @@
                         </span>
 
                         <strong>
-                            {{ student.study_hours }} hours/day
+                            {{ student.study_hours }} hrs/day
                         </strong>
 
                     </div>
 
 
-                    <!-- Internal Marks -->
+                    <!-- INTERNAL MARKS -->
 
-                    <div class="info-row">
+                    <div class="detail-row">
 
                         <span>
 
@@ -408,13 +707,13 @@
                     </div>
 
 
-                    <!-- Assignment -->
+                    <!-- ASSIGNMENT MARKS -->
 
-                    <div class="info-row">
+                    <div class="detail-row">
 
                         <span>
 
-                            <i class="fas fa-clipboard-check"></i>
+                            <i class="fas fa-tasks"></i>
 
                             Assignment Marks
 
@@ -427,9 +726,9 @@
                     </div>
 
 
-                    <!-- Previous Semester -->
+                    <!-- PREVIOUS SEMESTER -->
 
-                    <div class="info-row">
+                    <div class="detail-row">
 
                         <span>
 
@@ -446,24 +745,116 @@
                     </div>
 
 
+                    <!-- PREDICTED SCORE -->
+
+                    <div class="detail-row highlight-row">
+
+                        <span>
+
+                            <i class="fas fa-bullseye"></i>
+
+                            Predicted Score
+
+                        </span>
+
+                        <strong>
+                            {{ student.predicted_score }}%
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- SUMMARY -->
+
+                <div class="performance-summary">
+
+
+                    <div class="summary-item">
+
+                        <span>
+                            Grade
+                        </span>
+
+                        <strong>
+                            {{ student.grade }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-item">
+
+                        <span>
+                            Risk Level
+                        </span>
+
+                        <strong
+                            class="{% if student.risk == 'Low' %}
+                                        text-low
+                                   {% elif student.risk == 'Medium' %}
+                                        text-medium
+                                   {% else %}
+                                        text-high
+                                   {% endif %}">
+
+                            {{ student.risk }}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-item">
+
+                        <span>
+                            Performance
+                        </span>
+
+
+                        {% if student.risk == "Low" %}
+
+                        <strong class="text-low">
+                            Excellent
+                        </strong>
+
+                        {% elif student.risk == "Medium" %}
+
+                        <strong class="text-medium">
+                            Needs Attention
+                        </strong>
+
+                        {% else %}
+
+                        <strong class="text-high">
+                            At Risk
+                        </strong>
+
+                        {% endif %}
+
+                    </div>
+
                 </div>
 
 
                 {% else %}
 
 
-                <!-- No Data -->
+                <!-- EMPTY STATE -->
 
                 <div class="empty-state">
 
-                    <i class="fas fa-user-graduate"></i>
+                    <i class="fas fa-database"></i>
 
                     <h3>
                         No Student Data
                     </h3>
 
                     <p>
-                        Make your first prediction to view student information.
+                        Go to the Predict page and create
+                        your first student prediction.
                     </p>
 
                 </div>
@@ -474,23 +865,43 @@
             </div>
 
 
-            <!-- ================= PERFORMANCE ANALYTICS ================= -->
 
-            <div class="analytics-panel">
+            <!-- =================================================
+                 AI PERFORMANCE ANALYSIS
+                 ================================================= -->
 
-                <div class="section-title">
+            <div class="info-card">
 
-                    <h2>
+                <div class="info-header">
 
-                        <i class="fas fa-chart-pie"></i>
+                    <div>
 
-                        Performance Analytics
+                        <h2>
 
-                    </h2>
+                            <i class="fas fa-brain"></i>
 
-                    <p>
-                        Latest AI prediction analysis.
-                    </p>
+                            AI Performance Analysis
+
+                        </h2>
+
+                        <p>
+                            Important factors used by the prediction model
+                        </p>
+
+                    </div>
+
+
+                    {% if student %}
+
+                    <span class="ai-badge">
+
+                        <i class="fas fa-robot"></i>
+
+                        AI Analysis
+
+                    </span>
+
+                    {% endif %}
 
                 </div>
 
@@ -498,14 +909,200 @@
                 {% if student %}
 
 
-                <div class="analytics-result">
+                <div class="factor-list">
 
 
-                    <!-- Score -->
+                    <!-- ATTENDANCE -->
 
-                    <div class="analytics-score">
+                    <div class="factor">
 
-                        <div class="score-circle">
+                        <div class="factor-title">
+
+                            <span>
+
+                                <i class="fas fa-user-check"></i>
+
+                                Attendance
+
+                            </span>
+
+                            <strong>
+                                {{ student.attendance }}%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress">
+
+                            <div class="progress-bar"
+                                 style="width:
+                                 {{ [student.attendance, 100] | min }}%;">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STUDY HOURS -->
+
+                    <div class="factor">
+
+                        <div class="factor-title">
+
+                            <span>
+
+                                <i class="fas fa-book-open"></i>
+
+                                Study Hours
+
+                            </span>
+
+                            <strong>
+                                {{ student.study_hours }} hrs/day
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress">
+
+                            {% set study_percent =
+                                (student.study_hours / 8 * 100) %}
+
+                            <div class="progress-bar purple-progress"
+                                 style="width:
+                                 {{ [study_percent, 100] | min }}%;">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- INTERNAL MARKS -->
+
+                    <div class="factor">
+
+                        <div class="factor-title">
+
+                            <span>
+
+                                <i class="fas fa-file-lines"></i>
+
+                                Internal Marks
+
+                            </span>
+
+                            <strong>
+                                {{ student.internal_marks }}%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress">
+
+                            <div class="progress-bar cyan-progress"
+                                 style="width:
+                                 {{ [student.internal_marks, 100] | min }}%;">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ASSIGNMENT MARKS -->
+
+                    <div class="factor">
+
+                        <div class="factor-title">
+
+                            <span>
+
+                                <i class="fas fa-list-check"></i>
+
+                                Assignment Marks
+
+                            </span>
+
+                            <strong>
+                                {{ student.assignment_marks }}%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress">
+
+                            <div class="progress-bar pink-progress"
+                                 style="width:
+                                 {{ [student.assignment_marks, 100] | min }}%;">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PREVIOUS SEMESTER -->
+
+                    <div class="factor">
+
+                        <div class="factor-title">
+
+                            <span>
+
+                                <i class="fas fa-graduation-cap"></i>
+
+                                Previous Semester
+
+                            </span>
+
+                            <strong>
+                                {{ student.previous_marks }}%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="progress">
+
+                            <div class="progress-bar orange-progress"
+                                 style="width:
+                                 {{ [student.previous_marks, 100] | min }}%;">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PREDICTED PERFORMANCE -->
+
+                    <div class="factor prediction-factor">
+
+                        <div class="factor-title">
+
+                            <span>
+
+                                <i class="fas fa-chart-line"></i>
+
+                                Predicted Performance
+
+                            </span>
 
                             <strong>
                                 {{ student.predicted_score }}%
@@ -513,43 +1110,16 @@
 
                         </div>
 
-                        <p>
-                            Predicted Performance
-                        </p>
 
-                    </div>
+                        <div class="progress">
 
+                            <div class="progress-bar prediction-progress"
+                                 style="width:
+                                 {{ [student.predicted_score, 100] | min }}%;">
 
-                    <!-- Grade + Risk -->
-
-                    <div class="analytics-details">
-
-
-                        <div class="analytics-item">
-
-                            <span>
-                                Grade
-                            </span>
-
-                            <strong>
-                                {{ student.grade }}
-                            </strong>
+                            </div>
 
                         </div>
-
-
-                        <div class="analytics-item">
-
-                            <span>
-                                Risk Level
-                            </span>
-
-                            <strong>
-                                {{ student.risk }}
-                            </strong>
-
-                        </div>
-
 
                     </div>
 
@@ -557,19 +1127,108 @@
                 </div>
 
 
+
+                <!-- AI RESULT -->
+
+                <div class="ai-result-box">
+
+
+                    {% if student.risk == "Low" %}
+
+
+                    <div class="ai-result-icon success">
+
+                        <i class="fas fa-circle-check"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Excellent Performance
+                        </strong>
+
+                        <p>
+                            The student is currently performing well.
+                            Attendance, study habits and academic
+                            performance indicate a low-risk profile.
+                        </p>
+
+                    </div>
+
+
+                    {% elif student.risk == "Medium" %}
+
+
+                    <div class="ai-result-icon warning">
+
+                        <i class="fas fa-triangle-exclamation"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Performance Needs Attention
+                        </strong>
+
+                        <p>
+                            The student has a medium-risk profile.
+                            Improving attendance, study hours and
+                            academic performance may improve the result.
+                        </p>
+
+                    </div>
+
+
+                    {% else %}
+
+
+                    <div class="ai-result-icon danger">
+
+                        <i class="fas fa-circle-exclamation"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            High Risk Detected
+                        </strong>
+
+                        <p>
+                            The student may require academic support.
+                            Increasing study time and improving academic
+                            performance is recommended.
+                        </p>
+
+                    </div>
+
+
+                    {% endif %}
+
+                </div>
+
+
                 {% else %}
 
 
+                <!-- EMPTY AI STATE -->
+
                 <div class="empty-state">
 
-                    <i class="fas fa-chart-pie"></i>
+                    <i class="fas fa-brain"></i>
 
                     <h3>
-                        No Analytics Available
+                        AI Analysis Waiting
                     </h3>
 
                     <p>
-                        Prediction analytics will appear here.
+                        Create a student prediction to view
+                        AI performance analysis.
                     </p>
 
                 </div>
@@ -583,14 +1242,79 @@
         </section>
 
 
+
+        <!-- =================================================
+             FOOTER
+             ================================================= -->
+
+        <footer class="dashboard-footer">
+
+            <div>
+
+                <strong>
+                    EduPredict AI
+                </strong>
+
+                <span>
+                    Student Performance Prediction System
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <i class="fas fa-shield-halved"></i>
+
+                Machine Learning Powered
+
+            </div>
+
+        </footer>
+
+
     </main>
 
 </div>
 
 
+
+<!-- =====================================================
+     DATA FOR CHARTS
+     ===================================================== -->
+
+<script>
+
+    const predictionLabels =
+        {{ prediction_labels | tojson }};
+
+    const predictionScores =
+        {{ prediction_scores | tojson }};
+
+
+    const riskData = {
+
+        low: {{ risk_data["Low"] }},
+
+        medium: {{ risk_data["Medium"] }},
+
+        high: {{ risk_data["High"] }}
+
+    };
+
+</script>
+
+
+
+<!-- Dashboard JavaScript -->
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+
 <!-- Existing JavaScript -->
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
 
 </body>
 

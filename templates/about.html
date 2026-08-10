@@ -2,25 +2,35 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>About | EduPredict AI</title>
 
+    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
+    <!-- Main CSS -->
     <link rel="stylesheet"
         href="{{ url_for('static', filename='css/style.css') }}">
 
+    <!-- Font Awesome -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 </head>
+
 
 <body>
 
 <div class="container">
 
-    <!-- Sidebar -->
+    <!-- ================================================= -->
+    <!-- SIDEBAR -->
+    <!-- ================================================= -->
 
     <aside class="sidebar">
 
@@ -37,6 +47,7 @@
 
         </div>
 
+
         <nav>
 
             <a href="{{ url_for('home') }}">
@@ -50,7 +61,7 @@
             </a>
 
             <a href="{{ url_for('history') }}">
-                <i class="fas fa-history"></i>
+                <i class="fas fa-clock-rotate-left"></i>
                 History
             </a>
 
@@ -68,196 +79,846 @@
 
     </aside>
 
+
+    <!-- ================================================= -->
+    <!-- MAIN CONTENT -->
+    <!-- ================================================= -->
+
     <main class="main-content">
 
-        <header>
 
-            <h1>
-                <i class="fas fa-robot"></i>
-                About EduPredict AI
-            </h1>
+        <!-- HERO -->
+        <section class="about-hero">
 
-            <p>
-                AI Powered Student Performance Prediction System
-            </p>
+            <div class="about-hero-content">
 
-        </header>
+                <div class="about-badge">
+                    <i class="fas fa-robot"></i>
+                    AI POWERED STUDENT ANALYTICS
+                </div>
 
-        <div class="about-card">
-
-            <h2>
-                <i class="fas fa-lightbulb"></i>
-                Project Overview
-            </h2>
-
-            <p>
-
-                EduPredict AI is a Machine Learning based Student Performance
-                Prediction System developed to help teachers and students
-                identify academic performance at an early stage.
-
-                The system predicts future academic performance using
-                Attendance, Study Hours, Internal Marks, Assignment Marks
-                and Previous Semester Marks.
-
-            </p>
-
-            <br>
-
-            <h2>
-                <i class="fas fa-bullseye"></i>
-                Project Objective
-            </h2>
-
-            <p>
-
-                The main objective of this project is to predict student
-                academic performance and identify students who require
-                additional academic support before final examinations.
-
-            </p>
-
-            <br>
-
-            <h2>
-                <i class="fas fa-star"></i>
-                Key Features
-            </h2>
-
-            <ul>
-
-                <li>📊 Student Performance Prediction</li>
-
-                <li>🤖 Machine Learning Based System</li>
-
-                <li>📈 Performance Dashboard</li>
-
-                <li>⚠ Risk Level Detection</li>
-
-                <li>🏆 Grade Prediction</li>
-
-                <li>📜 Prediction History</li>
-
-                <li>📉 Performance Analytics</li>
-
-            </ul>
-                        <br>
-
-            <h2>
-                <i class="fas fa-code"></i>
-                Technologies Used
-            </h2>
-
-            <div class="tech-grid">
-
-                <div class="tech-box">HTML5</div>
-
-                <div class="tech-box">CSS3</div>
-
-                <div class="tech-box">JavaScript</div>
-
-                <div class="tech-box">Python</div>
-
-                <div class="tech-box">Flask</div>
-
-                <div class="tech-box">Machine Learning</div>
-
-                <div class="tech-box">Pandas</div>
-
-                <div class="tech-box">Scikit-learn</div>
-
-                <div class="tech-box">NumPy</div>
-
-                <div class="tech-box">SQLite</div>
-
-            </div>
-
-            <br>
-
-            <h2>
-                <i class="fas fa-user"></i>
-                Developer Information
-            </h2>
-
-            <table class="about-table">
-
-                <tr>
-                    <td><strong>Project Name</strong></td>
-                    <td>EduPredict AI - Student Performance Prediction System</td>
-                </tr>
-
-                <tr>
-                    <td><strong>Developer</strong></td>
-                    <td>Tanmay Thamake</td>
-                </tr>
-
-                <tr>
-                    <td><strong>Course</strong></td>
-                    <td>Diploma in Computer Engineering</td>
-                </tr>
-
-                <tr>
-                    <td><strong>Technology</strong></td>
-                    <td>Python, Flask, HTML, CSS, JavaScript</td>
-                </tr>
-
-                <tr>
-                    <td><strong>Database</strong></td>
-                    <td>SQLite</td>
-                </tr>
-
-                <tr>
-                    <td><strong>AI Model</strong></td>
-                    <td>Machine Learning</td>
-                </tr>
-
-            </table>
-
-            <br>
-
-            <h2>
-                <i class="fas fa-graduation-cap"></i>
-                Project Vision
-            </h2>
-
-            <p>
-
-                EduPredict AI aims to provide an intelligent academic
-                prediction system that assists teachers in identifying
-                students who  may require additional support. It helps
-                institutions make data-driven decisions and improves
-                overall academic performance through early intervention.
-
-            </p>
-
-            <br>
-
-            <div class="version-card">
-
-                <h3>
-                    <i class="fas fa-shield-check"></i>
-                    Version 1.0
-                </h3>
+                <h1>
+                    About <span>EduPredict AI</span>
+                </h1>
 
                 <p>
-
-                    © 2026 EduPredict AI
-
-                    <br>
-
-                    Developed for Diploma Final Year Project
-
+                    A Machine Learning based Student Performance Prediction
+                    System designed to analyze academic data and provide
+                    intelligent performance insights.
                 </p>
+
+                <div class="about-status">
+
+                    <span>
+                        <i class="fas fa-circle"></i>
+                        System Active
+                    </span>
+
+                    <span>
+                        <i class="fas fa-brain"></i>
+                        Machine Learning
+                    </span>
+
+                    <span>
+                        <i class="fas fa-database"></i>
+                        SQLite Database
+                    </span>
+
+                </div>
 
             </div>
 
-        </div>
+
+            <div class="about-hero-icon">
+
+                <div class="about-ai-circle">
+
+                    <i class="fas fa-robot"></i>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- PROJECT OVERVIEW -->
+        <!-- ================================================= -->
+
+        <section class="about-section">
+
+            <div class="section-heading">
+
+                <span class="section-icon blue-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </span>
+
+                <div>
+                    <h2>Project Overview</h2>
+                    <p>Understanding the purpose of EduPredict AI</p>
+                </div>
+
+            </div>
+
+
+            <div class="overview-grid">
+
+                <div class="overview-content">
+
+                    <p>
+                        <strong>EduPredict AI</strong> is a Machine Learning
+                        based Student Performance Prediction System developed
+                        to analyze academic and learning-related information.
+                    </p>
+
+                    <p>
+                        The system uses important student parameters such as
+                        attendance, daily study hours, internal marks,
+                        assignment performance and previous semester
+                        performance.
+                    </p>
+
+                    <p>
+                        Based on these inputs, the trained Machine Learning
+                        model predicts the student's expected performance
+                        score and generates an expected grade and risk level.
+                    </p>
+
+                </div>
+
+
+                <div class="overview-highlight">
+
+                    <div class="highlight-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+
+                    <h3>Smart Academic Analysis</h3>
+
+                    <p>
+                        Convert student academic data into meaningful
+                        performance insights.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- OBJECTIVE -->
+        <!-- ================================================= -->
+
+        <section class="about-section objective-section">
+
+            <div class="section-heading">
+
+                <span class="section-icon purple-icon">
+                    <i class="fas fa-bullseye"></i>
+                </span>
+
+                <div>
+                    <h2>Project Objective</h2>
+                    <p>What EduPredict AI aims to achieve</p>
+                </div>
+
+            </div>
+
+
+            <div class="objective-grid">
+
+                <div class="objective-card">
+
+                    <i class="fas fa-magnifying-glass-chart"></i>
+
+                    <h3>Early Detection</h3>
+
+                    <p>
+                        Identify students who may require additional
+                        academic support at an early stage.
+                    </p>
+
+                </div>
+
+
+                <div class="objective-card">
+
+                    <i class="fas fa-chart-simple"></i>
+
+                    <h3>Performance Prediction</h3>
+
+                    <p>
+                        Predict expected academic performance using
+                        Machine Learning.
+                    </p>
+
+                </div>
+
+
+                <div class="objective-card">
+
+                    <i class="fas fa-shield-heart"></i>
+
+                    <h3>Risk Identification</h3>
+
+                    <p>
+                        Categorize predicted performance into Low,
+                        Medium and High risk levels.
+                    </p>
+
+                </div>
+
+
+                <div class="objective-card">
+
+                    <i class="fas fa-user-graduate"></i>
+
+                    <h3>Student Support</h3>
+
+                    <p>
+                        Help students and teachers make better
+                        academic decisions.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- HOW SYSTEM WORKS -->
+        <!-- ================================================= -->
+
+        <section class="about-section">
+
+            <div class="section-heading">
+
+                <span class="section-icon cyan-icon">
+                    <i class="fas fa-gears"></i>
+                </span>
+
+                <div>
+                    <h2>How EduPredict AI Works</h2>
+                    <p>Simple four-step prediction process</p>
+                </div>
+
+            </div>
+
+
+            <div class="process-grid">
+
+
+                <div class="process-card">
+
+                    <div class="process-number">01</div>
+
+                    <div class="process-icon">
+                        <i class="fas fa-user-pen"></i>
+                    </div>
+
+                    <h3>Enter Student Data</h3>
+
+                    <p>
+                        Enter attendance, study hours, internal,
+                        assignment and previous semester marks.
+                    </p>
+
+                </div>
+
+
+                <div class="process-card">
+
+                    <div class="process-number">02</div>
+
+                    <div class="process-icon">
+                        <i class="fas fa-filter"></i>
+                    </div>
+
+                    <h3>Data Processing</h3>
+
+                    <p>
+                        Marks are converted into percentages and
+                        prepared as Machine Learning inputs.
+                    </p>
+
+                </div>
+
+
+                <div class="process-card">
+
+                    <div class="process-number">03</div>
+
+                    <div class="process-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+
+                    <h3>ML Prediction</h3>
+
+                    <p>
+                        The trained Machine Learning model analyzes
+                        the student's academic information.
+                    </p>
+
+                </div>
+
+
+                <div class="process-card">
+
+                    <div class="process-number">04</div>
+
+                    <div class="process-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+
+                    <h3>Result & Analysis</h3>
+
+                    <p>
+                        The system generates score, grade, risk level
+                        and dashboard analytics.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- ML INPUTS -->
+        <!-- ================================================= -->
+
+        <section class="about-section">
+
+            <div class="section-heading">
+
+                <span class="section-icon orange-icon">
+                    <i class="fas fa-sliders"></i>
+                </span>
+
+                <div>
+                    <h2>Prediction Parameters</h2>
+                    <p>Data used by the Machine Learning model</p>
+                </div>
+
+            </div>
+
+
+            <div class="parameter-grid">
+
+
+                <div class="parameter-card">
+
+                    <div class="parameter-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+
+                    <div>
+                        <h3>Attendance</h3>
+                        <p>Student attendance percentage</p>
+                    </div>
+
+                </div>
+
+
+                <div class="parameter-card">
+
+                    <div class="parameter-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+
+                    <div>
+                        <h3>Study Hours</h3>
+                        <p>Average study hours per day</p>
+                    </div>
+
+                </div>
+
+
+                <div class="parameter-card">
+
+                    <div class="parameter-icon">
+                        <i class="fas fa-file-pen"></i>
+                    </div>
+
+                    <div>
+                        <h3>Internal Marks</h3>
+                        <p>Internal assessment percentage</p>
+                    </div>
+
+                </div>
+
+
+                <div class="parameter-card">
+
+                    <div class="parameter-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+
+                    <div>
+                        <h3>Assignment Marks</h3>
+                        <p>Assignment performance percentage</p>
+                    </div>
+
+                </div>
+
+
+                <div class="parameter-card">
+
+                    <div class="parameter-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+
+                    <div>
+                        <h3>Previous Semester</h3>
+                        <p>Previous semester percentage</p>
+                    </div>
+
+                </div>
+
+
+                <div class="parameter-card prediction-parameter">
+
+                    <div class="parameter-icon">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                    </div>
+
+                    <div>
+                        <h3>AI Prediction</h3>
+                        <p>Expected academic performance score</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- OUTPUTS -->
+        <!-- ================================================= -->
+
+        <section class="about-section">
+
+            <div class="section-heading">
+
+                <span class="section-icon green-icon">
+                    <i class="fas fa-chart-column"></i>
+                </span>
+
+                <div>
+                    <h2>Prediction Outputs</h2>
+                    <p>What the system provides after analysis</p>
+                </div>
+
+            </div>
+
+
+            <div class="output-grid">
+
+
+                <div class="output-card score-output">
+
+                    <i class="fas fa-percent"></i>
+
+                    <h3>Predicted Score</h3>
+
+                    <p>
+                        Expected academic performance percentage
+                        generated by the ML model.
+                    </p>
+
+                </div>
+
+
+                <div class="output-card grade-output">
+
+                    <i class="fas fa-award"></i>
+
+                    <h3>Expected Grade</h3>
+
+                    <p>
+                        Grade generated according to the predicted
+                        performance score.
+                    </p>
+
+                </div>
+
+
+                <div class="output-card risk-output">
+
+                    <i class="fas fa-triangle-exclamation"></i>
+
+                    <h3>Risk Level</h3>
+
+                    <p>
+                        Low, Medium or High risk classification
+                        based on predicted performance.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- KEY FEATURES -->
+        <!-- ================================================= -->
+
+        <section class="about-section">
+
+            <div class="section-heading">
+
+                <span class="section-icon pink-icon">
+                    <i class="fas fa-star"></i>
+                </span>
+
+                <div>
+                    <h2>Key Features</h2>
+                    <p>Professional capabilities of the system</p>
+                </div>
+
+            </div>
+
+
+            <div class="features-grid">
+
+
+                <div class="feature-item">
+                    <i class="fas fa-robot"></i>
+                    <span>Machine Learning Prediction</span>
+                </div>
+
+
+                <div class="feature-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Performance Dashboard</span>
+                </div>
+
+
+                <div class="feature-item">
+                    <i class="fas fa-database"></i>
+                    <span>SQLite Database</span>
+                </div>
+
+
+                <div class="feature-item">
+                    <i class="fas fa-clock-rotate-left"></i>
+                    <span>Prediction History</span>
+                </div>
+
+
+                <div class="feature-item">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    <span>Risk Level Detection</span>
+                </div>
+
+
+                <div class="feature-item">
+                    <i class="fas fa-award"></i>
+                    <span>Grade Prediction</span>
+                </div>
+
+
+                <div class="feature-item">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Analytics & Graphs</span>
+                </div>
+
+
+                <div class="feature-item">
+                    <i class="fas fa-trash-can"></i>
+                    <span>Record Management</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- TECHNOLOGY STACK -->
+        <!-- ================================================= -->
+
+        <section class="about-section">
+
+            <div class="section-heading">
+
+                <span class="section-icon blue-icon">
+                    <i class="fas fa-code"></i>
+                </span>
+
+                <div>
+                    <h2>Technology Stack</h2>
+                    <p>Technologies used to build EduPredict AI</p>
+                </div>
+
+            </div>
+
+
+            <div class="technology-grid">
+
+
+                <div class="technology-card">
+
+                    <i class="fab fa-python"></i>
+
+                    <h3>Python</h3>
+
+                    <p>Backend & Machine Learning</p>
+
+                </div>
+
+
+                <div class="technology-card">
+
+                    <i class="fas fa-flask"></i>
+
+                    <h3>Flask</h3>
+
+                    <p>Web Application Framework</p>
+
+                </div>
+
+
+                <div class="technology-card">
+
+                    <i class="fas fa-brain"></i>
+
+                    <h3>Machine Learning</h3>
+
+                    <p>Student Performance Prediction</p>
+
+                </div>
+
+
+                <div class="technology-card">
+
+                    <i class="fas fa-database"></i>
+
+                    <h3>SQLite</h3>
+
+                    <p>Student Data Storage</p>
+
+                </div>
+
+
+                <div class="technology-card">
+
+                    <i class="fab fa-html5"></i>
+
+                    <h3>HTML5</h3>
+
+                    <p>Frontend Structure</p>
+
+                </div>
+
+
+                <div class="technology-card">
+
+                    <i class="fab fa-css3-alt"></i>
+
+                    <h3>CSS3</h3>
+
+                    <p>Professional UI Design</p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- SYSTEM ARCHITECTURE -->
+        <!-- ================================================= -->
+
+        <section class="about-section architecture-section">
+
+            <div class="section-heading">
+
+                <span class="section-icon purple-icon">
+                    <i class="fas fa-sitemap"></i>
+                </span>
+
+                <div>
+                    <h2>System Architecture</h2>
+                    <p>How the major components communicate</p>
+                </div>
+
+            </div>
+
+
+            <div class="architecture">
+
+                <div class="architecture-box">
+
+                    <i class="fas fa-user"></i>
+
+                    <strong>Student</strong>
+
+                    <small>Input Data</small>
+
+                </div>
+
+
+                <div class="architecture-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+
+                <div class="architecture-box">
+
+                    <i class="fas fa-window-maximize"></i>
+
+                    <strong>Web Interface</strong>
+
+                    <small>Flask Application</small>
+
+                </div>
+
+
+                <div class="architecture-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+
+                <div class="architecture-box">
+
+                    <i class="fas fa-brain"></i>
+
+                    <strong>ML Model</strong>
+
+                    <small>Prediction Engine</small>
+
+                </div>
+
+
+                <div class="architecture-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+
+
+                <div class="architecture-box">
+
+                    <i class="fas fa-chart-pie"></i>
+
+                    <strong>Analytics</strong>
+
+                    <small>Result & Dashboard</small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- BENEFITS -->
+        <!-- ================================================= -->
+
+        <section class="about-section benefits-section">
+
+            <div class="section-heading">
+
+                <span class="section-icon green-icon">
+                    <i class="fas fa-circle-check"></i>
+                </span>
+
+                <div>
+                    <h2>Benefits</h2>
+                    <p>Why this system is useful</p>
+                </div>
+
+            </div>
+
+
+            <div class="benefits-grid">
+
+                <div>
+                    <i class="fas fa-bolt"></i>
+                    <h3>Fast Analysis</h3>
+                    <p>Quickly analyze student academic information.</p>
+                </div>
+
+                <div>
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Data Driven</h3>
+                    <p>Uses academic data instead of only manual judgement.</p>
+                </div>
+
+                <div>
+                    <i class="fas fa-user-shield"></i>
+                    <h3>Early Support</h3>
+                    <p>Helps identify students who may need attention.</p>
+                </div>
+
+                <div>
+                    <i class="fas fa-desktop"></i>
+                    <h3>Easy to Use</h3>
+                    <p>Simple interface with professional analytics.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- PROJECT FOOTER -->
+        <!-- ================================================= -->
+
+        <section class="about-footer">
+
+            <div>
+
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+
+                <div>
+
+                    <h2>EduPredict AI</h2>
+
+                    <p>
+                        Intelligent Student Performance Prediction System
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <span>
+                <i class="fas fa-code"></i>
+                AI • Machine Learning • Analytics
+            </span>
+
+        </section>
+
 
     </main>
 
 </div>
-
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 

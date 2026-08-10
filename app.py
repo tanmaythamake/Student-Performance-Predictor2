@@ -1,14 +1,19 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 import joblib
 
 app = Flask(__name__)
 
-# Load Machine Learning Model
+# =========================================================
+# LOAD MACHINE LEARNING MODEL
+# =========================================================
+
 model = joblib.load("model.pkl")
 
 
-# ---------------- HOME ----------------
+# =========================================================
+# HOME / PROFESSIONAL DASHBOARD
+# =========================================================
 
 @app.route("/")
 def home():
@@ -18,6 +23,7 @@ def home():
 
     cursor = conn.cursor()
 
+    # Latest Student
     cursor.execute("""
         SELECT *
         FROM students
@@ -27,14 +33,112 @@ def home():
 
     student = cursor.fetchone()
 
+    # Total Predictions
+    cursor.execute("""
+        SELECT COUNT(*) AS total
+        FROM students
+    """)
+
+    total_predictions = cursor.fetchone()["total"]
+
+    # Average Predicted Score
+    cursor.execute("""
+        SELECT AVG(predicted_score) AS average
+        FROM students
+    """)
+
+    average_score = cursor.fetchone()["average"]
+
+    if average_score is None:
+        average_score = 0
+
+    # Average Attendance
+    cursor.execute("""
+        SELECT AVG(attendance) AS average
+        FROM students
+    """)
+
+    average_attendance = cursor.fetchone()["average"]
+
+    if average_attendance is None:
+        average_attendance = 0
+
+    # Risk Distribution
+    cursor.execute("""
+        SELECT risk, COUNT(*) AS count
+        FROM students
+        GROUP BY risk
+    """)
+
+    risk_rows = cursor.fetchall()
+
+    risk_data = {
+        "Low": 0,
+        "Medium": 0,
+        "High": 0
+    }
+
+    for row in risk_rows:
+
+        if row["risk"] in risk_data:
+            risk_data[row["risk"]] = row["count"]
+
+    # Recent Predictions
+    cursor.execute("""
+        SELECT
+            id,
+            name,
+            predicted_score,
+            grade,
+            risk
+        FROM students
+        ORDER BY id DESC
+        LIMIT 7
+    """)
+
+    recent_rows = cursor.fetchall()
+
+    # Oldest → Newest
+    recent_rows = list(reversed(recent_rows))
+
+    # Graph Data
+    prediction_labels = []
+    prediction_scores = []
+
+    for index, row in enumerate(recent_rows, start=1):
+
+        prediction_labels.append(
+            "Prediction " + str(index)
+        )
+
+        prediction_scores.append(
+            round(float(row["predicted_score"]), 2)
+        )
+
     conn.close()
 
     return render_template(
         "index.html",
-        student=student
+
+        student=student,
+
+        total_predictions=total_predictions,
+
+        average_score=round(average_score, 2),
+
+        average_attendance=round(average_attendance, 2),
+
+        risk_data=risk_data,
+
+        prediction_labels=prediction_labels,
+
+        prediction_scores=prediction_scores
     )
 
-# ---------------- PREDICT ----------------
+
+# =========================================================
+# PREDICT
+# =========================================================
 
 @app.route("/predict", methods=["GET", "POST"])
 def predict():
@@ -43,22 +147,101 @@ def predict():
 
     if request.method == "POST":
 
+        # -------------------------------------------------
+        # STUDENT INFORMATION
+        # -------------------------------------------------
+
         name = request.form["name"]
-        attendance = float(request.form["attendance"])
-        study = float(request.form["study"])
-        internal_total = float(request.form["internal_total"])
-        internal_obtained = float(request.form["internal_obtained"])
 
-        assignment_total = float(request.form["assignment_total"])
-        assignment_obtained = float(request.form["assignment_obtained"])
+        attendance = float(
+            request.form["attendance"]
+        )
 
-        internal = (internal_obtained / internal_total) * 100
-        assignment = (assignment_obtained / assignment_total) * 100
-        total_marks = float(request.form["total_marks"])
-        obtained_marks = float(request.form["obtained_marks"])
-        previous = (obtained_marks / total_marks) * 100
+        study = float(
+            request.form["study"]
+        )
 
-        # ================= MACHINE LEARNING PREDICTION =================
+        # -------------------------------------------------
+        # INTERNAL MARKS
+        # -------------------------------------------------
+
+        internal_total = float(
+            request.form["internal_total"]
+        )
+
+        internal_obtained = float(
+            request.form["internal_obtained"]
+        )
+
+        # -------------------------------------------------
+        # ASSIGNMENT MARKS
+        # -------------------------------------------------
+
+        assignment_total = float(
+            request.form["assignment_total"]
+        )
+
+        assignment_obtained = float(
+            request.form["assignment_obtained"]
+        )
+
+        # -------------------------------------------------
+        # PREVIOUS SEMESTER MARKS
+        # -------------------------------------------------
+
+        total_marks = float(
+            request.form["total_marks"]
+        )
+
+        obtained_marks = float(
+            request.form["obtained_marks"]
+        )
+
+        # -------------------------------------------------
+        # VALIDATION
+        # -------------------------------------------------
+
+        if internal_total <= 0:
+            return "Internal total marks must be greater than 0"
+
+        if assignment_total <= 0:
+            return "Assignment total marks must be greater than 0"
+
+        if total_marks <= 0:
+            return "Previous semester total marks must be greater than 0"
+
+        # -------------------------------------------------
+        # CONVERT MARKS INTO PERCENTAGE
+        # -------------------------------------------------
+
+        internal = (
+            internal_obtained /
+            internal_total
+        ) * 100
+
+        assignment = (
+            assignment_obtained /
+            assignment_total
+        ) * 100
+
+        previous = (
+            obtained_marks /
+            total_marks
+        ) * 100
+
+        # -------------------------------------------------
+        # LIMIT PERCENTAGES
+        # -------------------------------------------------
+
+        internal = max(0, min(internal, 100))
+
+        assignment = max(0, min(assignment, 100))
+
+        previous = max(0, min(previous, 100))
+
+        # =================================================
+        # MACHINE LEARNING PREDICTION
+        # =================================================
 
         data = [[
             attendance,
@@ -70,6 +253,8 @@ def predict():
 
         score = model.predict(data)[0]
 
+        # Keep score between 0 and 100
+
         if score > 100:
             score = 100
 
@@ -78,55 +263,70 @@ def predict():
 
         score = round(score, 2)
 
-        # ================= GRADE =================
+        # =================================================
+        # GRADE
+        # =================================================
 
         if score >= 90:
             grade = "A+"
+
         elif score >= 80:
             grade = "A"
+
         elif score >= 70:
             grade = "B+"
+
         elif score >= 60:
             grade = "B"
+
         elif score >= 50:
             grade = "C"
+
         elif score >= 40:
             grade = "D"
+
         else:
             grade = "F"
 
-        # ================= RISK =================
+        # =================================================
+        # RISK
+        # =================================================
 
         if score >= 75:
             risk = "Low"
+
         elif score >= 50:
             risk = "Medium"
+
         else:
             risk = "High"
 
-        # ================= SAVE TO DATABASE =================
+        # =================================================
+        # SAVE RESULT TO DATABASE
+        # =================================================
 
         conn = sqlite3.connect("students.db")
+
         cursor = conn.cursor()
 
         cursor.execute("""
-        INSERT INTO students
+            INSERT INTO students
+            (
+                name,
+                attendance,
+                study_hours,
+                internal_marks,
+                assignment_marks,
+                previous_marks,
+                predicted_score,
+                grade,
+                risk
+            )
+
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+
         (
-            name,
-            attendance,
-            study_hours,
-            internal_marks,
-            assignment_marks,
-            previous_marks,
-            predicted_score,
-            grade,
-            risk
-        )
-
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-
-        """, (
-
             name,
             attendance,
             study,
@@ -136,39 +336,51 @@ def predict():
             score,
             grade,
             risk
-
         ))
 
         conn.commit()
+
         conn.close()
 
-        # ================= RESULT =================
+        # =================================================
+        # RESULT
+        # =================================================
 
         result = {
 
             "name": name,
+
             "score": score,
+
             "grade": grade,
+
             "risk": risk
 
         }
 
-    return render_template("predict.html", result=result)
+    return render_template(
+        "predict.html",
+        result=result
+    )
 
 
-# ---------------- HISTORY ----------------
+# =========================================================
+# HISTORY
+# =========================================================
 
 @app.route("/history")
 def history():
 
     conn = sqlite3.connect("students.db")
+
     conn.row_factory = sqlite3.Row
 
     cursor = conn.cursor()
 
     cursor.execute("""
-    SELECT * FROM students
-    ORDER BY id DESC
+        SELECT *
+        FROM students
+        ORDER BY id DESC
     """)
 
     students = cursor.fetchall()
@@ -181,21 +393,59 @@ def history():
     )
 
 
-# ---------------- ABOUT ----------------
+# =========================================================
+# DELETE STUDENT RECORD
+# =========================================================
+
+@app.route("/delete/<int:student_id>", methods=["POST"])
+def delete_student(student_id):
+
+    conn = sqlite3.connect("students.db")
+
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "DELETE FROM students WHERE id = ?",
+        (student_id,)
+    )
+
+    conn.commit()
+
+    conn.close()
+
+    return redirect(url_for("history"))
+
+
+# =========================================================
+# ABOUT
+# =========================================================
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+
+    return render_template(
+        "about.html"
+    )
 
 
-# ---------------- SETTINGS ----------------
+# =========================================================
+# SETTINGS
+# =========================================================
 
 @app.route("/settings")
 def settings():
-    return render_template("settings.html")
+
+    return render_template(
+        "settings.html"
+    )
 
 
-# ---------------- RUN APP ----------------
+# =========================================================
+# RUN APPLICATION
+# =========================================================
 
 if __name__ == "__main__":
-    app.run(debug=True)
+
+    app.run(
+        debug=True
+    )
