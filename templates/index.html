@@ -28,6 +28,70 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <style>
+        .data-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .data-status-dot {
+            width: 9px;
+            height: 9px;
+            flex: 0 0 9px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+
+        .performance-summary {
+            margin-top: 16px;
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+        }
+
+        .status-row + .status-row {
+            margin-top: 8px;
+        }
+
+        .status-row span,
+        .status-row strong {
+            color: inherit;
+        }
+
+        .grade-a,
+        .risk-low,
+        .performance-good {
+            background: #ecfdf5;
+            border-color: #10b981;
+            color: #059669;
+        }
+
+        .grade-b,
+        .grade-c,
+        .risk-medium,
+        .performance-moderate {
+            background: #fff7ed;
+            border-color: #f59e0b;
+            color: #d97706;
+        }
+
+        .grade-d,
+        .grade-f,
+        .risk-high,
+        .performance-needs-improvement {
+            background: #fef2f2;
+            border-color: #ef4444;
+            color: #dc2626;
+        }
+    </style>
+
 </head>
 
 
@@ -209,7 +273,7 @@
                     </span>
 
                     <h2>
-                        {{ average_score }}%
+                        {{ '%.2f'|format(average_score|float) }}%
                     </h2>
 
                     <small>
@@ -243,7 +307,7 @@
                     </span>
 
                     <h2>
-                        {{ average_attendance }}%
+                        {{ '%.2f'|format(average_attendance|float) }}%
                     </h2>
 
                     <small>
@@ -360,7 +424,7 @@
                 </span>
 
                 <strong>
-                    {{ student.predicted_score }}%
+                    {{ '%.2f'|format(student.predicted_score|float) }}%
                 </strong>
 
             </div>
@@ -573,7 +637,7 @@
 
                     <span class="data-status">
 
-                        <i class="fas fa-circle"></i>
+                        <span class="data-status-dot" aria-hidden="true"></span>
 
                         Live Data
 
@@ -663,7 +727,7 @@
                         </span>
 
                         <strong>
-                            {{ student.attendance }}%
+                            {{ '%.2f'|format(student.attendance|float) }}%
                         </strong>
 
                     </div>
@@ -701,7 +765,7 @@
                         </span>
 
                         <strong>
-                            {{ student.internal_marks }}%
+                            {{ '%.2f'|format(student.internal_marks|float) }}%
                         </strong>
 
                     </div>
@@ -720,7 +784,7 @@
                         </span>
 
                         <strong>
-                            {{ student.assignment_marks }}%
+                            {{ '%.2f'|format(student.assignment_marks|float) }}%
                         </strong>
 
                     </div>
@@ -739,7 +803,7 @@
                         </span>
 
                         <strong>
-                            {{ student.previous_marks }}%
+                            {{ '%.2f'|format(student.previous_marks|float) }}%
                         </strong>
 
                     </div>
@@ -758,7 +822,7 @@
                         </span>
 
                         <strong>
-                            {{ student.predicted_score }}%
+                            {{ '%.2f'|format(student.predicted_score|float) }}%
                         </strong>
 
                     </div>
@@ -772,7 +836,7 @@
                 <div class="performance-summary">
 
 
-                    <div class="summary-item">
+                    <div class="summary-item status-row {% if student.grade in ['A', 'A+'] %}grade-a{% elif student.grade in ['B', 'B+'] %}grade-b{% elif student.grade == 'C' %}grade-c{% elif student.grade == 'D' %}grade-d{% elif student.grade == 'F' %}grade-f{% endif %}">
 
                         <span>
                             Grade
@@ -785,20 +849,13 @@
                     </div>
 
 
-                    <div class="summary-item">
+                    <div class="summary-item status-row {% if student.risk == 'Low' %}risk-low{% elif student.risk == 'Medium' %}risk-medium{% elif student.risk == 'High' %}risk-high{% endif %}">
 
                         <span>
                             Risk Level
                         </span>
 
-                        <strong
-                            class="{% if student.risk == 'Low' %}
-                                        text-low
-                                   {% elif student.risk == 'Medium' %}
-                                        text-medium
-                                   {% else %}
-                                        text-high
-                                   {% endif %}">
+                        <strong>
 
                             {{ student.risk }}
 
@@ -807,7 +864,7 @@
                     </div>
 
 
-                    <div class="summary-item">
+                    <div class="summary-item status-row {% if student.risk == 'Low' %}performance-good{% elif student.risk == 'Medium' %}performance-moderate{% else %}performance-needs-improvement{% endif %}">
 
                         <span>
                             Performance
@@ -816,19 +873,19 @@
 
                         {% if student.risk == "Low" %}
 
-                        <strong class="text-low">
+                        <strong>
                             Excellent
                         </strong>
 
                         {% elif student.risk == "Medium" %}
 
-                        <strong class="text-medium">
+                        <strong>
                             Needs Attention
                         </strong>
 
                         {% else %}
 
-                        <strong class="text-high">
+                        <strong>
                             At Risk
                         </strong>
 
@@ -927,7 +984,7 @@
                             </span>
 
                             <strong>
-                                {{ student.attendance }}%
+                                {{ '%.2f'|format(student.attendance|float) }}%
                             </strong>
 
                         </div>
@@ -1000,7 +1057,7 @@
                             </span>
 
                             <strong>
-                                {{ student.internal_marks }}%
+                                {{ '%.2f'|format(student.internal_marks|float) }}%
                             </strong>
 
                         </div>
@@ -1035,7 +1092,7 @@
                             </span>
 
                             <strong>
-                                {{ student.assignment_marks }}%
+                                {{ '%.2f'|format(student.assignment_marks|float) }}%
                             </strong>
 
                         </div>
@@ -1070,7 +1127,7 @@
                             </span>
 
                             <strong>
-                                {{ student.previous_marks }}%
+                                {{ '%.2f'|format(student.previous_marks|float) }}%
                             </strong>
 
                         </div>
@@ -1105,7 +1162,7 @@
                             </span>
 
                             <strong>
-                                {{ student.predicted_score }}%
+                                {{ '%.2f'|format(student.predicted_score|float) }}%
                             </strong>
 
                         </div>

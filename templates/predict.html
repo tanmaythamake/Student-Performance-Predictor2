@@ -966,21 +966,134 @@
         }
 
 
-        .score strong {
+        .score-high {
 
-            color: #2563eb;
+            background: #f0fdf4;
+
+            border-color: #22c55e;
         }
 
 
-        .grade strong {
-
-            color: #7c3aed;
-        }
-
-
-        .risk strong {
+        .score-high strong {
 
             color: #16a34a;
+        }
+
+
+        .score-medium {
+
+            background: #fffbeb;
+
+            border-color: #f59e0b;
+        }
+
+
+        .score-medium strong {
+
+            color: #d97706;
+        }
+
+
+        .score-low {
+
+            background: #fef2f2;
+
+            border-color: #ef4444;
+        }
+
+
+        .score-low strong {
+
+            color: #dc2626;
+        }
+
+
+        .grade-a {
+
+            background: #f0fdf4;
+
+            border-color: #22c55e;
+        }
+
+
+        .grade-a strong {
+
+            color: #16a34a;
+        }
+
+
+        .grade-b,
+        .grade-c {
+
+            background: #fffbeb;
+
+            border-color: #f59e0b;
+        }
+
+
+        .grade-b strong,
+        .grade-c strong {
+
+            color: #d97706;
+        }
+
+
+        .grade-f {
+
+            background: #fef2f2;
+
+            border-color: #ef4444;
+        }
+
+
+        .grade-f strong {
+
+            color: #dc2626;
+        }
+
+
+        .risk-low {
+
+            background: #f0fdf4;
+
+            border-color: #22c55e;
+        }
+
+
+        .risk-low span,
+        .risk-low strong {
+
+            color: #16a34a;
+        }
+
+
+        .risk-medium {
+
+            background: #fffbeb;
+
+            border-color: #f59e0b;
+        }
+
+
+        .risk-medium span,
+        .risk-medium strong {
+
+            color: #d97706;
+        }
+
+
+        .risk-high {
+
+            background: #fef2f2;
+
+            border-color: #ef4444;
+        }
+
+
+        .risk-high span,
+        .risk-high strong {
+
+            color: #dc2626;
         }
 
 
@@ -1625,7 +1738,7 @@
                         </div>
 
 
-                        <div class="result-item score">
+                        <div class="result-item score {% if result.score >= 75 %}score-high{% elif result.score >= 50 %}score-medium{% else %}score-low{% endif %}">
 
                             <span>
                                 Predicted Score
@@ -1638,7 +1751,7 @@
                         </div>
 
 
-                        <div class="result-item grade">
+                        <div class="result-item grade {% if result.grade in ['A', 'A+'] %}grade-a{% elif result.grade in ['B', 'B+'] %}grade-b{% elif result.grade == 'C' %}grade-c{% elif result.grade == 'F' %}grade-f{% endif %}">
 
                             <span>
                                 Expected Grade
@@ -1651,7 +1764,7 @@
                         </div>
 
 
-                        <div class="result-item risk">
+                        <div class="result-item risk {% if result.risk == 'Low' %}risk-low{% elif result.risk == 'Medium' %}risk-medium{% elif result.risk == 'High' %}risk-high{% endif %}">
 
                             <span>
                                 Risk Level
