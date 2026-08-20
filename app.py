@@ -1,8 +1,40 @@
 from flask import Flask, render_template, request, redirect, url_for
-import sqlite3
+import psycopg2
+from psycopg2.extras import RealDictCursor
 import joblib
 
 app = Flask(__name__)
+
+# =========================================================
+# POSTGRESQL DATABASE CONFIGURATION
+# =========================================================
+
+PG_HOST = "localhost"
+PG_PORT = 5432
+PG_DATABASE = "postgres"
+PG_USER = "postgres"
+
+# IMPORTANT:
+# इथे PostgreSQL install करताना तू ठेवलेला password टाक.
+PG_PASSWORD = "tanmay"
+
+
+# =========================================================
+# DATABASE CONNECTION
+# =========================================================
+
+def get_db_connection():
+
+    conn = psycopg2.connect(
+        host=PG_HOST,
+        port=PG_PORT,
+        database=PG_DATABASE,
+        user=PG_USER,
+        password=PG_PASSWORD
+    )
+
+    return conn
+
 
 # =========================================================
 # LOAD MACHINE LEARNING MODEL
@@ -12,18 +44,20 @@ model = joblib.load("model.pkl")
 
 
 # =========================================================
-# HOME / PROFESSIONAL DASHBOARD
+# HOME / DASHBOARD
 # =========================================================
 
 @app.route("/")
 def home():
 
-    conn = sqlite3.connect("students.db")
-    conn.row_factory = sqlite3.Row
+    conn = get_db_connection()
 
-    cursor = conn.cursor()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
 
+    # -----------------------------------------------------
     # Latest Student
+    # -----------------------------------------------------
+
     cursor.execute("""
         SELECT *
         FROM students
@@ -33,7 +67,10 @@ def home():
 
     student = cursor.fetchone()
 
+    # -----------------------------------------------------
     # Total Predictions
+    # -----------------------------------------------------
+
     cursor.execute("""
         SELECT COUNT(*) AS total
         FROM students
@@ -41,7 +78,10 @@ def home():
 
     total_predictions = cursor.fetchone()["total"]
 
+    # -----------------------------------------------------
     # Average Predicted Score
+    # -----------------------------------------------------
+
     cursor.execute("""
         SELECT AVG(predicted_score) AS average
         FROM students
@@ -52,7 +92,10 @@ def home():
     if average_score is None:
         average_score = 0
 
+    # -----------------------------------------------------
     # Average Attendance
+    # -----------------------------------------------------
+
     cursor.execute("""
         SELECT AVG(attendance) AS average
         FROM students
@@ -63,7 +106,10 @@ def home():
     if average_attendance is None:
         average_attendance = 0
 
+    # -----------------------------------------------------
     # Risk Distribution
+    # -----------------------------------------------------
+
     cursor.execute("""
         SELECT risk, COUNT(*) AS count
         FROM students
@@ -83,7 +129,10 @@ def home():
         if row["risk"] in risk_data:
             risk_data[row["risk"]] = row["count"]
 
+    # -----------------------------------------------------
     # Recent Predictions
+    # -----------------------------------------------------
+
     cursor.execute("""
         SELECT
             id,
@@ -101,7 +150,10 @@ def home():
     # Oldest → Newest
     recent_rows = list(reversed(recent_rows))
 
+    # -----------------------------------------------------
     # Graph Data
+    # -----------------------------------------------------
+
     prediction_labels = []
     prediction_scores = []
 
@@ -115,6 +167,7 @@ def home():
             round(float(row["predicted_score"]), 2)
         )
 
+    cursor.close()
     conn.close()
 
     return render_template(
@@ -124,9 +177,9 @@ def home():
 
         total_predictions=total_predictions,
 
-        average_score=round(average_score, 2),
+        average_score=round(float(average_score), 2),
 
-        average_attendance=round(average_attendance, 2),
+        average_attendance=round(float(average_attendance), 2),
 
         risk_data=risk_data,
 
@@ -261,7 +314,7 @@ def predict():
         if score < 0:
             score = 0
 
-        score = round(score, 2)
+        score = round(float(score), 2)
 
         # =================================================
         # GRADE
@@ -302,10 +355,10 @@ def predict():
             risk = "High"
 
         # =================================================
-        # SAVE RESULT TO DATABASE
+        # SAVE RESULT TO POSTGRESQL
         # =================================================
 
-        conn = sqlite3.connect("students.db")
+        conn = get_db_connection()
 
         cursor = conn.cursor()
 
@@ -322,8 +375,7 @@ def predict():
                 grade,
                 risk
             )
-
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
         """,
 
         (
@@ -340,6 +392,7 @@ def predict():
 
         conn.commit()
 
+        cursor.close()
         conn.close()
 
         # =================================================
@@ -371,11 +424,11 @@ def predict():
 @app.route("/history")
 def history():
 
-    conn = sqlite3.connect("students.db")
+    conn = get_db_connection()
 
-    conn.row_factory = sqlite3.Row
-
-    cursor = conn.cursor()
+    cursor = conn.cursor(
+        cursor_factory=RealDictCursor
+    )
 
     cursor.execute("""
         SELECT *
@@ -385,6 +438,7 @@ def history():
 
     students = cursor.fetchall()
 
+    cursor.close()
     conn.close()
 
     return render_template(
@@ -397,23 +451,29 @@ def history():
 # DELETE STUDENT RECORD
 # =========================================================
 
-@app.route("/delete/<int:student_id>", methods=["POST"])
+@app.route(
+    "/delete/<int:student_id>",
+    methods=["POST"]
+)
 def delete_student(student_id):
 
-    conn = sqlite3.connect("students.db")
+    conn = get_db_connection()
 
     cursor = conn.cursor()
 
     cursor.execute(
-        "DELETE FROM students WHERE id = ?",
+        "DELETE FROM students WHERE id = %s",
         (student_id,)
     )
 
     conn.commit()
 
+    cursor.close()
     conn.close()
 
-    return redirect(url_for("history"))
+    return redirect(
+        url_for("history")
+    )
 
 
 # =========================================================
