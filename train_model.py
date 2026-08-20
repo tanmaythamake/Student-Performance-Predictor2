@@ -36,11 +36,11 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # ===========================
-# Train Random Forest Model
+# Train Final Random Forest Model
 # ===========================
 
 model = RandomForestRegressor(
-    n_estimators=100,
+    n_estimators=300,
     random_state=42
 )
 
@@ -57,7 +57,7 @@ rmse = mean_squared_error(y_test, y_pred) ** 0.5
 r2 = r2_score(y_test, y_pred)
 
 print("\n===================================")
-print(" Model Evaluation Results ")
+print(" FINAL MODEL EVALUATION")
 print("===================================")
 print(f"MAE  : {mae:.2f}")
 print(f"RMSE : {rmse:.2f}")
@@ -65,37 +65,35 @@ print(f"R²   : {r2:.4f}")
 print("===================================")
 
 # ===========================
-# Feature Importance Analysis
+# Feature Importance
 # ===========================
 
-feature_names = [
-    "Attendance",
-    "StudyHours",
-    "InternalMarks",
-    "AssignmentMarks",
-    "PreviousMarks"
-]
+feature_importance = pd.DataFrame({
+    "Feature": X.columns,
+    "Importance": model.feature_importances_
+})
 
-feature_importances = sorted(
-    zip(feature_names, model.feature_importances_),
-    key=lambda x: x[1],
-    reverse=True
+feature_importance = feature_importance.sort_values(
+    by="Importance",
+    ascending=False
 )
 
 print("\n===================================")
-print(" Feature Importance")
+print(" FEATURE IMPORTANCE")
 print("===================================")
-for feature, importance in feature_importances:
-    print(f"{feature:<15}: {importance:.4f}")
+
+for _, row in feature_importance.iterrows():
+    print(f"{row['Feature']:<20}: {row['Importance']:.4f}")
+
 print("===================================")
 
 # ===========================
-# Save Model
+# Save Final Model
 # ===========================
 
 joblib.dump(model, "model.pkl")
 
-print("===================================")
+print("\n===================================")
 print(" Machine Learning Model Trained ")
 print(" model.pkl Created Successfully ")
 print("===================================")

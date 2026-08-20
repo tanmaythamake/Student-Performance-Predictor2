@@ -1,22 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for
-import psycopg2
-from psycopg2.extras import RealDictCursor
+import sqlite3
 import joblib
 
 app = Flask(__name__)
 
 # =========================================================
-# POSTGRESQL DATABASE CONFIGURATION
+# SQLITE DATABASE CONFIGURATION
 # =========================================================
 
-PG_HOST = "localhost"
-PG_PORT = 5432
-PG_DATABASE = "postgres"
-PG_USER = "postgres"
-
-# IMPORTANT:
-# इथे PostgreSQL install करताना तू ठेवलेला password टाक.
-PG_PASSWORD = "tanmay"
+DATABASE = "students.db"
 
 
 # =========================================================
@@ -25,13 +17,9 @@ PG_PASSWORD = "tanmay"
 
 def get_db_connection():
 
-    conn = psycopg2.connect(
-        host=PG_HOST,
-        port=PG_PORT,
-        database=PG_DATABASE,
-        user=PG_USER,
-        password=PG_PASSWORD
-    )
+    conn = sqlite3.connect(DATABASE)
+
+    conn.row_factory = sqlite3.Row
 
     return conn
 
@@ -52,13 +40,11 @@ def home():
 
     conn = get_db_connection()
 
-    cursor = conn.cursor(cursor_factory=RealDictCursor)
-
     # -----------------------------------------------------
     # Latest Student
     # -----------------------------------------------------
 
-    cursor.execute("""
+    cursor = conn.execute("""
         SELECT *
         FROM students
         ORDER BY id DESC
@@ -71,7 +57,7 @@ def home():
     # Total Predictions
     # -----------------------------------------------------
 
-    cursor.execute("""
+    cursor = conn.execute("""
         SELECT COUNT(*) AS total
         FROM students
     """)
@@ -82,7 +68,7 @@ def home():
     # Average Predicted Score
     # -----------------------------------------------------
 
-    cursor.execute("""
+    cursor = conn.execute("""
         SELECT AVG(predicted_score) AS average
         FROM students
     """)
@@ -96,7 +82,7 @@ def home():
     # Average Attendance
     # -----------------------------------------------------
 
-    cursor.execute("""
+    cursor = conn.execute("""
         SELECT AVG(attendance) AS average
         FROM students
     """)
@@ -110,7 +96,7 @@ def home():
     # Risk Distribution
     # -----------------------------------------------------
 
-    cursor.execute("""
+    cursor = conn.execute("""
         SELECT risk, COUNT(*) AS count
         FROM students
         GROUP BY risk
@@ -133,7 +119,7 @@ def home():
     # Recent Predictions
     # -----------------------------------------------------
 
-    cursor.execute("""
+    cursor = conn.execute("""
         SELECT
             id,
             name,
@@ -167,7 +153,6 @@ def home():
             round(float(row["predicted_score"]), 2)
         )
 
-    cursor.close()
     conn.close()
 
     return render_template(
@@ -355,14 +340,12 @@ def predict():
             risk = "High"
 
         # =================================================
-        # SAVE RESULT TO POSTGRESQL
+        # SAVE RESULT TO SQLITE
         # =================================================
 
         conn = get_db_connection()
 
-        cursor = conn.cursor()
-
-        cursor.execute("""
+        conn.execute("""
             INSERT INTO students
             (
                 name,
@@ -375,9 +358,8 @@ def predict():
                 grade,
                 risk
             )
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
-
         (
             name,
             attendance,
@@ -392,7 +374,6 @@ def predict():
 
         conn.commit()
 
-        cursor.close()
         conn.close()
 
         # =================================================
@@ -426,11 +407,7 @@ def history():
 
     conn = get_db_connection()
 
-    cursor = conn.cursor(
-        cursor_factory=RealDictCursor
-    )
-
-    cursor.execute("""
+    cursor = conn.execute("""
         SELECT *
         FROM students
         ORDER BY id DESC
@@ -438,7 +415,6 @@ def history():
 
     students = cursor.fetchall()
 
-    cursor.close()
     conn.close()
 
     return render_template(
@@ -459,16 +435,13 @@ def delete_student(student_id):
 
     conn = get_db_connection()
 
-    cursor = conn.cursor()
-
-    cursor.execute(
-        "DELETE FROM students WHERE id = %s",
+    conn.execute(
+        "DELETE FROM students WHERE id = ?",
         (student_id,)
     )
 
     conn.commit()
 
-    cursor.close()
     conn.close()
 
     return redirect(
@@ -508,4 +481,4 @@ if __name__ == "__main__":
 
     app.run(
         debug=True
-    ),
+    )
