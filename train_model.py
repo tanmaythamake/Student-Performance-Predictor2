@@ -45,6 +45,7 @@ model = RandomForestRegressor(
 )
 
 model.fit(X_train, y_train)
+
 # ===========================
 # Evaluate Model
 # ===========================
@@ -61,6 +62,31 @@ print("===================================")
 print(f"MAE  : {mae:.2f}")
 print(f"RMSE : {rmse:.2f}")
 print(f"R²   : {r2:.4f}")
+print("===================================")
+
+# ===========================
+# Feature Importance Analysis
+# ===========================
+
+feature_names = [
+    "Attendance",
+    "StudyHours",
+    "InternalMarks",
+    "AssignmentMarks",
+    "PreviousMarks"
+]
+
+feature_importances = sorted(
+    zip(feature_names, model.feature_importances_),
+    key=lambda x: x[1],
+    reverse=True
+)
+
+print("\n===================================")
+print(" Feature Importance")
+print("===================================")
+for feature, importance in feature_importances:
+    print(f"{feature:<15}: {importance:.4f}")
 print("===================================")
 
 # ===========================
