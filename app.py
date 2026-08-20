@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 import joblib
+import os
 
 app = Flask(__name__)
 
@@ -8,7 +9,14 @@ app = Flask(__name__)
 # SQLITE DATABASE CONFIGURATION
 # =========================================================
 
-DATABASE = "students.db"
+PG_HOST = "localhost"
+PG_PORT = 5432
+PG_DATABASE = "postgres"
+PG_USER = "postgres"
+
+# IMPORTANT:
+# इथे PostgreSQL install करताना तू ठेवलेला password टाक.
+PG_PASSWORD = "tanmay"
 
 
 # =========================================================
@@ -16,6 +24,48 @@ DATABASE = "students.db"
 # =========================================================
 
 def get_db_connection():
+
+    # -----------------------------------------------------
+    # Render + Neon connection
+    # -----------------------------------------------------
+
+    if DATABASE_URL:
+
+        conn = psycopg2.connect(
+            DATABASE_URL,
+            sslmode="require"
+        )
+
+        return conn
+
+    # -----------------------------------------------------
+    # Fallback for local computer
+    # -----------------------------------------------------
+
+    PG_HOST = os.environ.get(
+        "PG_HOST",
+        "localhost"
+    )
+
+    PG_PORT = os.environ.get(
+        "PG_PORT",
+        "5432"
+    )
+
+    PG_DATABASE = os.environ.get(
+        "PG_DATABASE",
+        "postgres"
+    )
+
+    PG_USER = os.environ.get(
+        "PG_USER",
+        "postgres"
+    )
+
+    PG_PASSWORD = os.environ.get(
+        "PG_PASSWORD",
+        ""
+    )
 
     conn = sqlite3.connect(DATABASE)
 
@@ -39,6 +89,8 @@ model = joblib.load("model.pkl")
 def home():
 
     conn = get_db_connection()
+
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
 
     # -----------------------------------------------------
     # Latest Student
@@ -134,7 +186,9 @@ def home():
     recent_rows = cursor.fetchall()
 
     # Oldest → Newest
-    recent_rows = list(reversed(recent_rows))
+    recent_rows = list(
+        reversed(recent_rows)
+    )
 
     # -----------------------------------------------------
     # Graph Data
@@ -143,14 +197,20 @@ def home():
     prediction_labels = []
     prediction_scores = []
 
-    for index, row in enumerate(recent_rows, start=1):
+    for index, row in enumerate(
+        recent_rows,
+        start=1
+    ):
 
         prediction_labels.append(
             "Prediction " + str(index)
         )
 
         prediction_scores.append(
-            round(float(row["predicted_score"]), 2)
+            round(
+                float(row["predicted_score"]),
+                2
+            )
         )
 
     conn.close()
@@ -162,9 +222,15 @@ def home():
 
         total_predictions=total_predictions,
 
-        average_score=round(float(average_score), 2),
+        average_score=round(
+            float(average_score),
+            2
+        ),
 
-        average_attendance=round(float(average_attendance), 2),
+        average_attendance=round(
+            float(average_attendance),
+            2
+        ),
 
         risk_data=risk_data,
 
@@ -178,7 +244,10 @@ def home():
 # PREDICT
 # =========================================================
 
-@app.route("/predict", methods=["GET", "POST"])
+@app.route(
+    "/predict",
+    methods=["GET", "POST"]
+)
 def predict():
 
     result = None
@@ -240,13 +309,25 @@ def predict():
         # -------------------------------------------------
 
         if internal_total <= 0:
-            return "Internal total marks must be greater than 0"
+
+            return (
+                "Internal total marks must be "
+                "greater than 0"
+            )
 
         if assignment_total <= 0:
-            return "Assignment total marks must be greater than 0"
+
+            return (
+                "Assignment total marks must be "
+                "greater than 0"
+            )
 
         if total_marks <= 0:
-            return "Previous semester total marks must be greater than 0"
+
+            return (
+                "Previous semester total marks "
+                "must be greater than 0"
+            )
 
         # -------------------------------------------------
         # CONVERT MARKS INTO PERCENTAGE
@@ -271,11 +352,20 @@ def predict():
         # LIMIT PERCENTAGES
         # -------------------------------------------------
 
-        internal = max(0, min(internal, 100))
+        internal = max(
+            0,
+            min(internal, 100)
+        )
 
-        assignment = max(0, min(assignment, 100))
+        assignment = max(
+            0,
+            min(assignment, 100)
+        )
 
-        previous = max(0, min(previous, 100))
+        previous = max(
+            0,
+            min(previous, 100)
+        )
 
         # =================================================
         # MACHINE LEARNING PREDICTION
@@ -299,31 +389,41 @@ def predict():
         if score < 0:
             score = 0
 
-        score = round(float(score), 2)
+        score = round(
+            float(score),
+            2
+        )
 
         # =================================================
         # GRADE
         # =================================================
 
         if score >= 90:
+
             grade = "A+"
 
         elif score >= 80:
+
             grade = "A"
 
         elif score >= 70:
+
             grade = "B+"
 
         elif score >= 60:
+
             grade = "B"
 
         elif score >= 50:
+
             grade = "C"
 
         elif score >= 40:
+
             grade = "D"
 
         else:
+
             grade = "F"
 
         # =================================================
@@ -331,12 +431,15 @@ def predict():
         # =================================================
 
         if score >= 75:
+
             risk = "Low"
 
         elif score >= 50:
+
             risk = "Medium"
 
         else:
+
             risk = "High"
 
         # =================================================
@@ -358,7 +461,7 @@ def predict():
                 grade,
                 risk
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
         """,
         (
             name,
@@ -389,7 +492,6 @@ def predict():
             "grade": grade,
 
             "risk": risk
-
         }
 
     return render_template(
@@ -435,8 +537,10 @@ def delete_student(student_id):
 
     conn = get_db_connection()
 
-    conn.execute(
-        "DELETE FROM students WHERE id = ?",
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "DELETE FROM students WHERE id = %s",
         (student_id,)
     )
 
@@ -481,4 +585,4 @@ if __name__ == "__main__":
 
     app.run(
         debug=True
-    )
+    ),
